@@ -57,7 +57,7 @@ for (i in lplex_list_expanded) {
     #print(i)
   } else if (length(i$STIM) > length(levels(factor(x = i$STIM)))) { #this checks if there are repeat STIMs
     repeats <- repeats + 1
-    #print(i)
+    print(i)
   } else {
     lplex_list_filtered[[added + 1]] <- i
     added <- added + 1
@@ -67,3 +67,12 @@ print(paste("Sets with no NIL: ", no_nil))
 print(paste("Sets with repeat STIMs: ", repeats))
 print(paste("Total removed: ", no_nil + repeats))
 print(paste("Sets remaining: ",length(lplex_list_filtered)))
+
+# NORMALIZE THE DATA AND MERGE ---
+
+x <- list()
+for (i in 1:length(lplex_list_filtered)) {
+  x[[i]] <- normalize(lplex_list_filtered[[i]])
+}
+lplex_normal <- bind_rows(x)
+
