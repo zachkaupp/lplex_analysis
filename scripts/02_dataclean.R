@@ -58,11 +58,12 @@ for (i in lplex_list_expanded) {
   } else if (length(i$STIM) > length(levels(factor(x = i$STIM)))) { #this checks if there are repeat STIMs
     repeats <- repeats + 1
     #print(i)
+  } else {
+    lplex_list_filtered[[added + 1]] <- i
+    added <- added + 1
   }
-  lplex_list_filtered[[added + 1]] <- i
-  added <- added + 1
 }
 print(paste("Sets with no NIL: ", no_nil))
 print(paste("Sets with repeat STIMs: ", repeats))
 print(paste("Total removed: ", no_nil + repeats))
-print(length(lplex_list_filtered))
+print(paste("Sets remaining: ",length(lplex_list_filtered)))
