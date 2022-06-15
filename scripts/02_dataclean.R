@@ -53,21 +53,30 @@ for (i in lplex_list) {
 
 # deal with dataframes that have no nil or retakes
 lplex_list_filtered <- list()
+lplex_list_no_nil <- list()
+lplex_list_repeats <- list()
 added <- 0
 no_nil <- 0
 repeats <- 0
+
 for (i in lplex_list_expanded) {
-  if (!("NIL" %in% i$STIM)) { #this checks if it is missing a NIL
+  if (!("NIL" %in% i$STIM)) { # this checks if it is missing a NIL
+    lplex_list_no_nil[[no_nil + 1]] <- i
     no_nil <- no_nil + 1
-    #print(i) # to print sets with no nil
-  } else if (length(i$STIM) > length(levels(factor(x = i$STIM)))) { #this checks if there are repeat STIMs
+  } else if (length(i$STIM) > length(levels(factor(x = i$STIM)))) { # this checks if there are repeat STIMs
+    lplex_list_repeats[[repeats + 1]] <- i
     repeats <- repeats + 1
-    print(i) # to print sets with repeats
-  } else {
+  } else { # otherwise, the data is good
     lplex_list_filtered[[added + 1]] <- i
     added <- added + 1
   }
 }
+
+# combine the data that isn't good into dataframes
+lplex_no_nil <- bind_rows(lplex_list_no_nil)
+lplex_repeats <- bind_rows(lplex_list_repeats)
+
+# update the user on the filtering process
 print(paste("Sets with no NIL: ", no_nil))
 print(paste("Sets with repeat STIMs: ", repeats))
 print(paste("Total removed: ", no_nil + repeats))
@@ -89,8 +98,8 @@ lplex_normal <- lplex_normal %>%
 
 lplex_normal_list_timepoints <- list()
 timepoints <- levels(factor(lplex$TIMEPOINT))
-added <- 0
 
+added <- 0
 for (i in timepoints) {
   if (i %in% excluded_timepoints) {
     next
@@ -98,3 +107,8 @@ for (i in timepoints) {
   lplex_normal_list_timepoints[[added + 1]] <- filter(lplex_normal, TIMEPOINT == i)
   added <- added + 1
 }
+
+## OUTPUT ---
+
+write_csv(lplex_no_nil, "output/no_nil.csv")
+write_csv(lplex_repeats, "output/repeats.csv")
