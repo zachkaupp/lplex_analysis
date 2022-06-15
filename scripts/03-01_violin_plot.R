@@ -11,10 +11,10 @@ plot_violin <- function(cytokine = "IL-1β", timepoint_index = 1) {
               aes(x = STIM,
                   y = lplex_normal_list_timepoints[[timepoint_index]][[cytokine]],
                   fill = STIM)) + 
-    geom_violin(trim = FALSE, color = "black") +
+    geom_violin(trim = FALSE, color = "black", scale = "width") +
     geom_boxplot(width = .7, outlier.shape = NA, color = "darkblue", fill = NA) +
     geom_dotplot(binaxis = 'y', stackdir = "center",
-                 dotsize = .7, alpha = .7,
+                 dotsize = .3, alpha = .5,
                  binwidth = (diff(range(lplex_normal_list_timepoints[[timepoint_index]][[cytokine]]))/20), # this makes sure the the dots stay around the same size for every cytokine, it is a problem otherwise
                  color = "black",
                  fill = "white") + 
@@ -36,10 +36,14 @@ print("Plots are also stored in output/violin_plot")
 
 ## OUTPUT ---
 
+print("Saving violin plot images in output directory, deleting the old ones")
+do.call(file.remove, list(list.files("output/violin_plot", full.names = TRUE)))
 for (i in 1:length(lplex_normal_list_timepoints)) {
   for (j in lplex_data_columns) {
-    ggsave(paste("output/violin_plot/", i, "_", j, ".png", sep = ""),
-           plot_violin(j,i - min(lplex_data_columns)),
+    ggsave(paste("output/violin_plot/", i, "_",
+                 j - (min(lplex_data_columns) - 1), # start counting from 1
+                 ".png", sep = ""),
+           plot_violin(colnames(lplex_normal[j]),i),
            device = "png")
   }
 }
