@@ -1,5 +1,10 @@
-## Script to make sure the data is formatted in a way that is
-## expected and edit to be predictable for the program
+## Find the data, clean it, and normalize it
+
+# SETTINGS ---
+
+excluded_timepoints <- c("N/A") # if remove this, it can't filter
+# the N/A properly for some reason
+excluded_groups <- c("#N/A", "N/A")
 
 # FIND THE FILE LOCATION ---
 print("NOTE: ONLY CSV FILES ACCEPTED")
@@ -54,10 +59,10 @@ repeats <- 0
 for (i in lplex_list_expanded) {
   if (!("NIL" %in% i$STIM)) { #this checks if it is missing a NIL
     no_nil <- no_nil + 1
-    #print(i)
+    #print(i) # to print sets with no nil
   } else if (length(i$STIM) > length(levels(factor(x = i$STIM)))) { #this checks if there are repeat STIMs
     repeats <- repeats + 1
-    print(i)
+    print(i) # to print sets with repeats
   } else {
     lplex_list_filtered[[added + 1]] <- i
     added <- added + 1
@@ -76,3 +81,20 @@ for (i in 1:length(lplex_list_filtered)) {
 }
 lplex_normal <- bind_rows(x)
 
+# REMOVE GROUPS ---
+lplex_normal <- lplex_normal %>%
+  filter(!(GROUP %in% excluded_groups))
+
+# SEPARATE DATAFRAME BASED ON TIMEPOINTS ---
+
+lplex_normal_list_timepoints <- list()
+timepoints <- levels(factor(lplex$TIMEPOINT))
+added <- 0
+
+for (i in timepoints) {
+  if (i %in% excluded_timepoints) {
+    next
+  }
+  lplex_normal_list_timepoints[[added + 1]] <- filter(lplex_normal, TIMEPOINT == i)
+  added <- added + 1
+}

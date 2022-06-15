@@ -1,4 +1,4 @@
-# initialize necessary functions
+## Initialize necessary functions
 
 # NORMALIZE ---
 
