@@ -22,3 +22,5 @@ normalize <- function(input_tibble) {
 }
 
 #View(normalize()) # for debugging
+
+print("Process complete")

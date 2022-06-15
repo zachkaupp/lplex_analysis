@@ -108,6 +108,15 @@ for (i in timepoints) {
   added <- added + 1
 }
 
+## FIND WHICH COLUMNS HAVE DATA ---
+
+lplex_data_columns <- c()
+for (i in 1:length(lplex_normal)) {
+  if (typeof(lplex_normal[[i]]) == "double") {
+    lplex_data_columns <- c(lplex_data_columns, i)
+  }
+}
+
 ## OUTPUT ---
 
 write_csv(lplex_no_nil, "output/filtered_data/no_nil.csv")

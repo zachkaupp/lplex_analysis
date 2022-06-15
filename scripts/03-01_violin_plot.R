@@ -36,5 +36,11 @@ print("Plots are also stored in output/violin_plot")
 
 ## OUTPUT ---
 
-
+for (i in 1:length(lplex_normal_list_timepoints)) {
+  for (j in lplex_data_columns) {
+    ggsave(paste("output/violin_plot/", i, "_", j, ".png", sep = ""),
+           plot_violin(j,i - min(lplex_data_columns)),
+           device = "png")
+  }
+}
 
