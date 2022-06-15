@@ -110,5 +110,8 @@ for (i in timepoints) {
 
 ## OUTPUT ---
 
-write_csv(lplex_no_nil, "output/no_nil.csv")
-write_csv(lplex_repeats, "output/repeats.csv")
+write_csv(lplex_no_nil, "output/filtered_data/no_nil.csv")
+write_csv(lplex_repeats, "output/filtered_data/repeats.csv")
+write_csv(lplex_normal, "output/filtered_data/normalized.csv")
+
+print("Process complete")
