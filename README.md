@@ -26,3 +26,6 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 - Run R scripts from the `scripts` file in the order they are numbered
 
 - Find output plots in the `output` directory
+
+### Walkthrough:
+[![lplex_walkthrough](http://img.youtube.com/vi/Aqx3z4Fg1aw/0.jpg)](http://www.youtube.com/watch?v=Aqx3z4Fg1aw)
