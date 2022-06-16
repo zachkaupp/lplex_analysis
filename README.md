@@ -2,7 +2,7 @@
 
 This project provides graphical information about legendplex data
 
-## to use:
+## To Use:
 
 - Clone this repository:
 ```
