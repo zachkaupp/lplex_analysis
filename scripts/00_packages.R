@@ -2,9 +2,9 @@
 
 # CRAN packages
 suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(gridExtra))
 library(tibble)
 suppressPackageStartupMessages(library(scales))
+library(ggfortify)
 
 # GITHUB packages
 library(ggradar)
