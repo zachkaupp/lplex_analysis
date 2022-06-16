@@ -117,6 +117,10 @@ for (i in 1:length(lplex_normal)) {
   }
 }
 
+## FIND A LIST OF THE STIMS ---
+
+lplex_stims <- levels(factor(lplex_normal$STIM))
+
 ## OUTPUT ---
 
 write_csv(lplex_no_nil, "output/filtered_data/no_nil.csv")

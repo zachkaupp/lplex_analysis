@@ -17,12 +17,12 @@ plot_violin <- function(cytokine = "IL-1β", timepoint_index = 1) {
     facet_wrap(~GROUP) +
     labs(title = paste("TIMEPOINT",
                        levels(factor(lplex_normal_list_timepoints[[timepoint_index]]$TIMEPOINT)),
-                       "-- log-2-fold-change")) +
+                       "-- log2fc",
+                       cytokine,
+                       "/ NIL")) +
     xlab("STIM") +
     ylab(cytokine) +
     theme_light()
-  #print(paste("Plotting", cytokine, "for TIMEPOINT", # this will tell you when it plots, if you want that
-              #levels(factor(lplex_normal_list_timepoints[[timepoint_index]]$TIMEPOINT))))
   return(x) # return the complete violin plot
 }
 
@@ -32,15 +32,17 @@ print("Plots are also stored in output/violin_plot")
 
 ## OUTPUT ---
 
-print("Saving violin plot images in output directory, deleting the old ones")
+print("Saving violin plot images in output directory, deleting any old ones")
 do.call(file.remove, list(list.files("output/violin_plot", full.names = TRUE)))
 for (i in 1:length(lplex_normal_list_timepoints)) {
   for (j in lplex_data_columns) {
-    ggsave(paste("output/violin_plot/", i, "_",
+    # warnings are suppressed because it often warns that it is excluding data
+    # when there aren't enough data points, and that isn't a big deal
+    suppressWarnings(ggsave(paste("output/violin_plot/", i, "_",
                  j - (min(lplex_data_columns) - 1), # start counting from 1
                  ".png", sep = ""),
            plot_violin(colnames(lplex_normal[j]),i),
-           device = "png")
+           device = "png"))
   }
 }
 
