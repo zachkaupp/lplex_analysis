@@ -1,9 +1,5 @@
 ## Plot data on violin plots
 
-cytokine_list <- list("IL-1β", "IFN-α2", "IFN-γ", "TNF-α",	"MCP-1",	"IL-6",
-                       "IL-8", "IL-10 (B3)","IL-12p70",	"IL-17A",	"IL-18",
-                       "IL-23",	"IL-33")
-
 plot_violin <- function(cytokine = "IL-1β", timepoint_index = 1) {
   
   # make the plot, most of this is for appearance

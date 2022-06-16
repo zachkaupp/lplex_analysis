@@ -124,3 +124,12 @@ write_csv(lplex_repeats, "output/filtered_data/repeats.csv")
 write_csv(lplex_normal, "output/filtered_data/normalized.csv")
 
 print("Process complete")
+
+## SUMMARY ---
+
+# Useful variables created:
+# - lplex_normal, dataframe of all normalized values
+# - lplex_normal_list_timepoints, lplex_normal, but separated
+#       into a list based on timepoint
+# - lplex_data_columns, vector containing the indices for columns in
+#       lplex_normal that contain data
