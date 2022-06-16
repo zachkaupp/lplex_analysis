@@ -17,10 +17,7 @@ normalize <- function(input_tibble) {
       }
     }
   }
-  # View(input_tibble) # for debugging
   return(normal)
 }
-
-#View(normalize()) # for debugging
 
 print("Process complete")

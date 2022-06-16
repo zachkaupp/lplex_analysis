@@ -16,12 +16,11 @@ plot_violin <- function(cytokine = "IL-1β", timepoint_index = 1) {
                  fill = "white") + 
     facet_wrap(~GROUP) +
     labs(title = paste("TIMEPOINT",
-                       levels(factor(lplex_normal_list_timepoints[[timepoint_index]]$TIMEPOINT)),
-                       "-- log2fc",
-                       cytokine,
-                       "/ NIL")) +
+                       levels(
+                         factor(
+                           lplex_normal_list_timepoints[[timepoint_index]]$TIMEPOINT)))) +
     xlab("STIM") +
-    ylab(cytokine) +
+    ylab(paste(cytokine, "-- log2fc", cytokine, "/ NIL")) +
     theme_light()
   return(x) # return the complete violin plot
 }
@@ -32,17 +31,20 @@ print("Plots are also stored in output/violin_plot")
 
 ## OUTPUT ---
 
-print("Saving violin plot images in output directory, deleting any old ones")
-do.call(file.remove, list(list.files("output/violin_plot", full.names = TRUE)))
-for (i in 1:length(lplex_normal_list_timepoints)) {
-  for (j in lplex_data_columns) {
-    # warnings are suppressed because it often warns that it is excluding data
-    # when there aren't enough data points, and that isn't a big deal
-    suppressWarnings(ggsave(paste("output/violin_plot/", i, "_",
-                 j - (min(lplex_data_columns) - 1), # start counting from 1
-                 ".png", sep = ""),
-           plot_violin(colnames(lplex_normal[j]),i),
-           device = "png"))
+local({ # local() puts variables in a local scope
+  print("Saving violin plot images in output directory, deleting any old ones")
+  do.call(file.remove, list(list.files("output/violin_plot", full.names = TRUE)))
+  for (i in 1:length(lplex_normal_list_timepoints)) {
+    for (j in lplex_data_columns) {
+      # warnings are suppressed because it often warns that it is excluding data
+      # when there aren't enough data points, and that isn't a big deal
+      suppressWarnings(ggsave(paste("output/violin_plot/", i, "_",
+                                    j - (min(lplex_data_columns) - 1), # start counting from 1
+                                    ".png", sep = ""),
+                              plot_violin(colnames(lplex_normal[j]),i),
+                              device = "png"))
+    }
   }
-}
+})
 
+print("Process complete")

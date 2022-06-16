@@ -127,13 +127,12 @@ write_csv(lplex_no_nil, "output/filtered_data/no_nil.csv")
 write_csv(lplex_repeats, "output/filtered_data/repeats.csv")
 write_csv(lplex_normal, "output/filtered_data/normalized.csv")
 
+## REMOVE UNNECESSARY VARIABLES ---
+
+rm(lplex, lplex_list, lplex_list_expanded, lplex_list_filtered,
+            lplex_list_no_nil, lplex_list_repeats, lplex_no_nil,
+            lplex_repeats, j, x) # dataframes
+
+rm(added, i, file_location, no_nil, repeats, timepoints) # values
+
 print("Process complete")
-
-## SUMMARY ---
-
-# Useful variables created:
-# - lplex_normal, dataframe of all normalized values
-# - lplex_normal_list_timepoints, lplex_normal, but separated
-#       into a list based on timepoint
-# - lplex_data_columns, vector containing the indices for columns in
-#       lplex_normal that contain data

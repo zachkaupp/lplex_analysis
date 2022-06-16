@@ -9,7 +9,7 @@ suppressPackageStartupMessages(library(scales))
 # GITHUB packages
 library(ggradar)
 # ^ install with "devtools::install_github("ricardo-bion/ggradar",
-# dependencies = TRUE)"
+# dependencies = TRUE)", but install 'devtools' from CRAN beforehand
 
 
 print("Process complete")
