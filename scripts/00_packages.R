@@ -5,6 +5,7 @@ suppressPackageStartupMessages(library(tidyverse))
 library(tibble)
 suppressPackageStartupMessages(library(scales))
 library(ggfortify)
+library(cluster)
 
 # GITHUB packages
 library(ggradar)

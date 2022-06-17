@@ -60,8 +60,6 @@ local({
   do.call(file.remove, list(list.files("output/spider_plot", full.names = TRUE)))
   for (i in 1:length(lplex_normal_list_timepoints)) {
     for (j in 1:length(lplex_stims)) {
-      # warnings are suppressed because it often warns that it is excluding data
-      # when there aren't enough data points, and that isn't a big deal
       ggsave(paste("output/spider_plot/", i, "_", j,".png", sep = ""),
              plot_spider(lplex_stims[[j]], i),
              device = "png",

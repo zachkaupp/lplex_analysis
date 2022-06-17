@@ -34,6 +34,6 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 # TODO
 - normalize to the control group
 - make graphs prettier
-- pca plots and heatmaps, with clustering (euclidean and knn?)
+- pca plots and heatmaps, with clustering (euclidean and knn?) (pca plots done but with no clustering)
 - make it take more than just BADAS, with the other file i got sent
 - find nils and filter repeats
