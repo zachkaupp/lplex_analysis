@@ -18,7 +18,7 @@ git clone https://github.com/zachkaupp/lplex_data.git
 # Run these in the R console to install
 # all the necessary packages
 
-install.packages(c("tidyverse", "tibble", "scales", "ggfortify", "devtools"))
+install.packages(c("tidyverse", "tibble", "scales", "ggfortify", "devtools", "cluster""))
 
 devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 ```
