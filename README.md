@@ -2,7 +2,7 @@
 
 This project provides graphical information about legendplex data
 
-## to use:
+## To Use:
 
 - Clone this repository:
 ```
@@ -26,3 +26,14 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 - Run R scripts from the `scripts` file in the order they are numbered
 
 - Find output plots in the `output` directory
+
+### Walkthrough:
+[![lplex_walkthrough](http://img.youtube.com/vi/Aqx3z4Fg1aw/0.jpg)](http://www.youtube.com/watch?v=Aqx3z4Fg1aw)
+
+
+# TODO
+- normalize to the control group
+- make graphs prettier
+- pca plots and heatmaps, with clustering (euclidean and knn?)
+- make it take more than just BADAS, with the other file i got sent
+- find nils and filter repeats
