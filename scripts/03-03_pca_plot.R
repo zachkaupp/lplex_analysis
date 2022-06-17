@@ -16,7 +16,7 @@ plot_pca <- function(timepoint_index = 1) {
                    loadings.colour = "cornsilk3",
                    loadings.label.size = 2.5) +
           theme_light() +
-          labs(title = paste("TIMEPOINT:", timepoint))
+          labs(title = paste("[TIMEPOINT: ", timepoint, "]"), sep = "")
   return(plot)
 }
 
@@ -24,6 +24,7 @@ local({
   print("Saving pca plot images in output directory, deleting any old ones")
   do.call(file.remove, list(list.files("output/pca_plot", full.names = TRUE)))
   for (i in 1:length(lplex_normal_list_timepoints)) {
+    cat(green("Saving image\n"))
     ggsave(paste("output/pca_plot/", i, ".png", sep = ""),
            plot_pca(i),
            device = "png",

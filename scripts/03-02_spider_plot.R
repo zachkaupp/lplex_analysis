@@ -38,16 +38,23 @@ plot_spider <- function(stim, timepoint_index = 1) {
     ggradar (
       group.point.size = 2,
       group.line.width = .5,
-      plot.title = paste("TIMEPOINT:",
+      plot.title = paste("[TIMEPOINT: ",
                          levels(factor(lplex_normal_list_timepoints[[timepoint_index]]$TIMEPOINT)),
-                         ", STIM: ", 
+                         "]  [STIM: ", 
                          stim,
-                         "-",
+                         "]  [",
                          (nrow(select(small_plot,-GROUP)) *
                             ncol(select(small_plot,-GROUP))),
-                         "data"),
+                         " data]",
+                         sep = ""),
       legend.title = "GROUP",
-      values.radar = c("","","")
+      values.radar = c("","",""),
+      gridline.min.colour = "lightpink1",
+      gridline.mid.colour = "khaki",
+      gridline.max.colour = "olivedrab2",
+      gridline.min.linetype = "solid",
+      gridline.max.linetype = "solid"
+      #background.circle.colour = "white" # I want this, but it has bad visibility for a yellow group
     )
 
   return(spider_plot) # return the complete spider plot
@@ -60,11 +67,13 @@ local({
   do.call(file.remove, list(list.files("output/spider_plot", full.names = TRUE)))
   for (i in 1:length(lplex_normal_list_timepoints)) {
     for (j in 1:length(lplex_stims)) {
+      cat(green("Saving image\n"))
       ggsave(paste("output/spider_plot/", i, "_", j,".png", sep = ""),
              plot_spider(lplex_stims[[j]], i),
              device = "png",
-             width = 10
-      )
+             width = 10,
+             height = 7
+             )
     }
   }
 })

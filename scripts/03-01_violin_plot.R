@@ -7,21 +7,25 @@ plot_violin <- function(cytokine = "IL-1β", timepoint_index = 1) {
               aes(x = STIM,
                   y = lplex_normal_list_timepoints[[timepoint_index]][[cytokine]],
                   fill = STIM)) + 
-    geom_violin(trim = FALSE, color = "black", scale = "width") +
-    geom_boxplot(width = .7, outlier.shape = NA, color = "darkblue", fill = NA) +
+    geom_violin(trim = FALSE, color = "black", scale = "width", width = .7) +
+    geom_boxplot(width = 1, outlier.shape = NA, color = "darkblue", fill = NA) +
     geom_dotplot(binaxis = 'y', stackdir = "center",
-                 dotsize = .3, alpha = .5,
+                 dotsize = .3, alpha = .8,
                  binwidth = (diff(range(lplex_normal_list_timepoints[[timepoint_index]][[cytokine]]))/20), # this makes sure the the dots stay around the same size for every cytokine, it is a problem otherwise
                  color = "black",
                  fill = "white") + 
     facet_wrap(~GROUP) +
-    labs(title = paste("TIMEPOINT",
+    labs(title = paste("[TIMEPOINT: ",
                        levels(
                          factor(
-                           lplex_normal_list_timepoints[[timepoint_index]]$TIMEPOINT)))) +
+                           lplex_normal_list_timepoints[[timepoint_index]]$TIMEPOINT)),
+                       "]  [",
+                       cytokine,
+                       "]",
+                       sep = "")) +
     xlab("STIM") +
     ylab(paste(cytokine, "-- log2fc", cytokine, "/ NIL")) +
-    theme_light()
+    theme_linedraw()
   return(x) # return the complete violin plot
 }
 
@@ -38,11 +42,14 @@ local({ # local() puts variables in a local scope
     for (j in lplex_data_columns) {
       # warnings are suppressed because it often warns that it is excluding data
       # when there aren't enough data points, and that isn't a big deal
+      cat(green("Saving image\n"))
       suppressWarnings(ggsave(paste("output/violin_plot/", i, "_",
                                     j - (min(lplex_data_columns) - 1), # start counting from 1
                                     ".png", sep = ""),
                               plot_violin(colnames(lplex_normal[j]),i),
-                              device = "png"))
+                              device = "png",
+                              width = 7,
+                              height = 7))
     }
   }
 })
