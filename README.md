@@ -38,3 +38,4 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 - find nils and filter repeats
 - update how lplex_data_columns is found to be consistent with other datasets
 - make sure datasets import with the right variable type in each column (may have to be manual)
+- do i need to worry about outliers? or do they deal with that later
