@@ -6,12 +6,12 @@ This project provides graphical information about legendplex data
 
 - Clone this repository:
 ```
-git clone https://github.com/zachkaupp/lplex_data.git
+git clone https://github.com/zachkaupp/lplex_analysis.git
 ```
 
 - Export legendplex data as a .csv, and put it in the `data` directory
 
-- Open `lplex_data.Rproj` in RStudio
+- Open `lplex_analysis.Rproj` in RStudio
 
 - Install the required packages, if you don't have them
 ```r
