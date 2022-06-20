@@ -1,4 +1,4 @@
-# lplex_data
+# lplex_analysis
 
 This project provides graphical information about legendplex data
 
