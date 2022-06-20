@@ -9,7 +9,8 @@ excluded_groups <- c("#N/A", "N/A")
 # FIND THE FILE LOCATION ---
 print("NOTE: ONLY CSV FILES ACCEPTED")
 if (length(list.files(path = "data")) == 0) {
-  stop("There are no files in the 'data' directory")
+  stop("There are no files in the 'data' directory. Place a .csv file 
+       in the 'data' directory and try again.")
 }
 
 file_location = paste("data/", list.files(path = "data"), collapse = NULL, sep = "")
