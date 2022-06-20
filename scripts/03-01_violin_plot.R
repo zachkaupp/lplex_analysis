@@ -48,7 +48,7 @@ local({ # local() puts variables in a local scope
                                     ".png", sep = ""),
                               plot_violin(colnames(lplex_normal[j]),i),
                               device = "png",
-                              width = 7,
+                              width = 10,
                               height = 7))
     }
   }
