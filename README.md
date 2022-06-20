@@ -39,3 +39,7 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 - update how lplex_data_columns is found to be consistent with other datasets
 - make sure datasets import with the right variable type in each column (may have to be manual)
 - do i need to worry about outliers? or do they deal with that later
+- flexible naming (1)
+- make a guide for formatting .csv input
+- put raw data stuff on hold
+- put table 1 stuff on hold (santiago)
