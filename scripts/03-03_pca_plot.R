@@ -41,7 +41,7 @@ plot_pca <- function(stim, timepoint_index = 1) {
   return(plot)
 }
 
-plot_pca_cluster <- function(grouping = "STIM", timepoint_index = 1) { # TODO separate this based on stim, just like the normal one
+plot_pca_cluster <- function(grouping = "STIM", timepoint_index = 1) {
   # https://stackoverflow.com/questions/35402850/how-to-plot-knn-clusters-boundaries-in-r
   timepoint <- levels(factor(lplex_normal_list_timepoints[[timepoint_index]][["TIMEPOINT"]]))
   df <- lplex_normal_list_timepoints[[timepoint_index]]

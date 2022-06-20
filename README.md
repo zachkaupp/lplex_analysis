@@ -28,9 +28,24 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 
 - Find output plots in the `output` directory
 
-### Walkthrough:
+### Walkthrough (outdated):
 [![lplex_walkthrough](http://img.youtube.com/vi/Aqx3z4Fg1aw/0.jpg)](http://www.youtube.com/watch?v=Aqx3z4Fg1aw)
 
+## Plot summaries:
+### Violin plot -
+- Grouped by timepoint and cytokine
+- Violin plot has a set max width
+- IQR range layers over violin plots
+- Dot plots layered over IQR range
+
+### Spider plot -
+- Grouped by timepoint and treatment
+- Dot location determined by median
+- The farther out from the center, the higher the value is
+
+### PCA plot -
+- Grouped by timepoint and treatment
+- Clustering includes all treatments in order to have enough data for accurate clusters (IN SOME CASES, THIS MAY BE MISLEADING)
 
 # TODO
 - pca plots and heatmaps, with clustering (euclidean and knn?) (pca plots done but with no clustering)
