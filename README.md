@@ -28,7 +28,7 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 
 - Find output plots in the `output` directory
 
-### Walkthrough (outdated):
+### Walkthrough (outdated, but generally correct):
 [![lplex_walkthrough](http://img.youtube.com/vi/Aqx3z4Fg1aw/0.jpg)](http://www.youtube.com/watch?v=Aqx3z4Fg1aw)
 
 ## Plot summaries:

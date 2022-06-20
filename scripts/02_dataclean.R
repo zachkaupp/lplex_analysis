@@ -5,7 +5,7 @@
 # column names
 
 # value names
-control <- "NIL"
+control <- "NIL" # negative control for data normalization
 
 # special settings
 excluded_timepoints <- c("N/A") # if you remove this, it can't filter
