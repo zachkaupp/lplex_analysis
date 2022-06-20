@@ -2,6 +2,12 @@
 
 # SETTINGS ---
 
+# column names
+
+# value names
+control <- "NIL"
+
+# special settings
 excluded_timepoints <- c("N/A") # if you remove this, it can't filter
 # the N/A properly for some reason
 excluded_groups <- c("#N/A", "N/A")
@@ -60,18 +66,18 @@ for (i in lplex_list) {
   }
 }
 
-# deal with dataframes that have no nil or have retakes
+# deal with dataframes that have no control or have retakes
 lplex_list_filtered <- list()
-lplex_list_no_nil <- list()
+lplex_list_no_control <- list()
 lplex_list_repeats <- list()
 added <- 0
-no_nil <- 0
+no_control <- 0
 repeats <- 0
 
 for (i in lplex_list_expanded) {
-  if (!("NIL" %in% i$STIM)) { # this checks if it is missing a NIL
-    lplex_list_no_nil[[no_nil + 1]] <- i
-    no_nil <- no_nil + 1
+  if (!(control %in% i$STIM)) { # this checks if it is missing a control
+    lplex_list_no_control[[no_control + 1]] <- i
+    no_control <- no_control + 1
   } else if (length(i$STIM) > length(levels(factor(x = i$STIM)))) { # this checks if there are repeat STIMs
     lplex_list_repeats[[repeats + 1]] <- i
     repeats <- repeats + 1
@@ -82,20 +88,20 @@ for (i in lplex_list_expanded) {
 }
 
 # combine the data that isn't good into dataframes
-lplex_no_nil <- bind_rows(lplex_list_no_nil)
+lplex_no_control <- bind_rows(lplex_list_no_control)
 lplex_repeats <- bind_rows(lplex_list_repeats)
 
 # update the user on the filtering process
-print(paste("Sets with no NIL: ", no_nil))
+print(paste("Sets with no control: ", no_control))
 print(paste("Sets with repeat STIMs: ", repeats))
-print(paste("Total removed: ", no_nil + repeats))
+print(paste("Total removed: ", no_control + repeats))
 print(paste("Sets remaining: ",length(lplex_list_filtered)))
 
 # NORMALIZE THE DATA AND MERGE ---
 
 x <- list()
 for (i in 1:length(lplex_list_filtered)) {
-  x[[i]] <- normalize(lplex_list_filtered[[i]])
+  x[[i]] <- normalize(lplex_list_filtered[[i]], control)
 }
 lplex_normal <- bind_rows(x)
 
@@ -132,16 +138,16 @@ lplex_stims <- levels(factor(lplex_normal$STIM))
 
 ## OUTPUT ---
 
-write_csv(lplex_no_nil, "output/filtered_data/no_nil.csv")
+write_csv(lplex_no_control, "output/filtered_data/no_control.csv")
 write_csv(lplex_repeats, "output/filtered_data/repeats.csv")
 write_csv(lplex_normal, "output/filtered_data/normalized.csv")
 
 ## REMOVE UNNECESSARY VARIABLES ---
 
 rm(lplex, lplex_list, lplex_list_expanded, lplex_list_filtered,
-            lplex_list_no_nil, lplex_list_repeats, lplex_no_nil,
+            lplex_list_no_control, lplex_list_repeats, lplex_no_control,
             lplex_repeats, j, x) # dataframes
 
-rm(added, i, file_location, no_nil, repeats, timepoints) # values
+rm(added, i, file_location, no_control, repeats, timepoints) # values
 
 print("Process complete")

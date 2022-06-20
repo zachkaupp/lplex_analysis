@@ -24,7 +24,7 @@ plot_violin <- function(cytokine, timepoint_index = 1) {
                        "]",
                        sep = "")) +
     xlab("STIM") +
-    ylab(paste(cytokine, "-- log2fc", cytokine, "/ NIL")) +
+    ylab(paste(cytokine, "-- log2fc", cytokine, "/", control)) +
     theme_linedraw()
   return(x) # return the complete violin plot
 }
