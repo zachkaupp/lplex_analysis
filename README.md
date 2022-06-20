@@ -20,6 +20,7 @@ git clone https://github.com/zachkaupp/lplex_data.git
 
 install.packages(c("tidyverse", "tibble", "scales", "ggfortify", "devtools", "cluster", "crayon"))
 
+library(devtools)
 devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 ```
 
@@ -32,7 +33,7 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 
 
 # TODO
-- make graphs prettier
+- fix title for pca plots
 - pca plots and heatmaps, with clustering (euclidean and knn?) (pca plots done but with no clustering)
 - make it take more than just BADAS, with the other file i got sent
 - find nils and filter repeats
