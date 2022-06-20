@@ -7,7 +7,7 @@ plot_pca <- function(timepoint_index = 1) {
   df <- lplex_normal_list_timepoints[[timepoint_index]]
   df_filtered <- df %>%
     select(all_of(lplex_data_columns))
-  pca_res <- prcomp(df_filtered, scale. = TRUE) # I don't know what scale does
+  pca_res <- prcomp(df_filtered, scale. = TRUE) # I don't know what scale does, but I think I need it
   plot <- autoplot(pca_res,
                    data = df,
                    colour = "GROUP",

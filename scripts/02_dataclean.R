@@ -2,9 +2,16 @@
 
 # SETTINGS ---
 
-excluded_timepoints <- c("N/A") # if remove this, it can't filter
+excluded_timepoints <- c("N/A") # if you remove this, it can't filter
 # the N/A properly for some reason
 excluded_groups <- c("#N/A", "N/A")
+
+# necessary columns:
+# - STIM
+# - GROUP
+# - TIMEPOINT
+# - ID
+# - cytokines?
 
 # FIND THE FILE LOCATION ---
 print("NOTE: ONLY CSV FILES ACCEPTED")
@@ -38,9 +45,10 @@ for (i in 1:length(lplex)) {
 
 # SEPARATE AND PRUNE THE DATAFRAME ---
 
+# separate by ID
 lplex_list <- split(lplex, f = lplex$ID)
 
-# expand list out by timepoints, so every ID x TIMEPOINT
+# expand list out by TIMEPOINT, so every ID x TIMEPOINT
 # combination is a dataframe in a list
 lplex_list_expanded = list()
 added <- 0
@@ -52,7 +60,7 @@ for (i in lplex_list) {
   }
 }
 
-# deal with dataframes that have no nil or retakes
+# deal with dataframes that have no nil or have retakes
 lplex_list_filtered <- list()
 lplex_list_no_nil <- list()
 lplex_list_repeats <- list()
@@ -111,7 +119,7 @@ for (i in timepoints) {
 
 ## FIND WHICH COLUMNS HAVE DATA ---
 
-lplex_data_columns <- c()
+lplex_data_columns <- c() # these are the indices for the columns that have cytokine data
 for (i in 1:length(lplex_normal)) {
   if (typeof(lplex_normal[[i]]) == "double") {
     lplex_data_columns <- c(lplex_data_columns, i)

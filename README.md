@@ -33,7 +33,7 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 
 
 # TODO
-- fix title for pca plots
 - pca plots and heatmaps, with clustering (euclidean and knn?) (pca plots done but with no clustering)
 - make it take more than just BADAS, with the other file i got sent
 - find nils and filter repeats
+- update how lplex_data_columns is found to be consistent with other datasets

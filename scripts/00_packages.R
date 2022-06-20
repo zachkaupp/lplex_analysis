@@ -7,6 +7,7 @@ suppressPackageStartupMessages(library(scales))
 library(ggfortify)
 library(cluster)
 suppressPackageStartupMessages(library(crayon))
+library(class)
 
 # GITHUB packages
 library(ggradar)

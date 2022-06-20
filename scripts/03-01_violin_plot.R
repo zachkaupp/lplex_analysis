@@ -1,6 +1,6 @@
 ## Plot data on violin plots
 
-plot_violin <- function(cytokine = "IL-1β", timepoint_index = 1) {
+plot_violin <- function(cytokine, timepoint_index = 1) {
   
   # make the plot, most of this is for appearance
   x <- ggplot(lplex_normal_list_timepoints[[timepoint_index]],
