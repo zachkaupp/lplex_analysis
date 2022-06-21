@@ -1,5 +1,7 @@
 ## Plot medians of data on spider plots
 
+save_plots <- TRUE
+
 plot_spider <- function(treatment, timepoint_index = 1) {
   
   # create starting variables
@@ -64,20 +66,24 @@ plot_spider <- function(treatment, timepoint_index = 1) {
 
 ## OUTPUT ---
 
-local({
-  print("Saving spider plot images in output directory, deleting any old ones")
-  do.call(file.remove, list(list.files("output/spider_plot", full.names = TRUE)))
-  for (i in 1:length(lplex_normal_list_timepoints)) {
-    for (j in 1:length(lplex_treatments)) {
-      cat(green("Saving image\n"))
-      ggsave(paste("output/spider_plot/", i, "_", j,".png", sep = ""),
-             plot_spider(lplex_treatments[[j]], i),
-             device = "png",
-             width = 10,
-             height = 7
-             )
+if (save_plots) {
+  local({
+    print("Saving spider plot images in output directory, deleting any old ones")
+    do.call(file.remove, list(list.files("output/spider_plot", full.names = TRUE)))
+    for (i in 1:length(lplex_normal_list_timepoints)) {
+      for (j in 1:length(lplex_treatments)) {
+        cat(green("Saving image\n"))
+        ggsave(paste("output/spider_plot/", i, "_", j,".png", sep = ""),
+               plot_spider(lplex_treatments[[j]], i),
+               device = "png",
+               width = 10,
+               height = 7
+        )
+      }
     }
-  }
-})
+  })
+}
+
+rm(save_plots)
 
 print("Process complete")

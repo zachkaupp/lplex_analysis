@@ -2,6 +2,8 @@
 
 # see https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_pca.html
 
+save_plots <- TRUE
+
 plot_pca <- function(treatment, timepoint_index = 1) {
   timepoint <- levels(factor(lplex_normal_list_timepoints[[timepoint_index]][["TIMEPOINT"]]))
   df <- lplex_normal_list_timepoints[[timepoint_index]] %>%
@@ -83,25 +85,29 @@ plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1) {
   return(plot)
 }
 
-local({
-  print("Saving pca plot images in output directory, deleting any old ones")
-  do.call(file.remove, list(list.files("output/pca_plot", full.names = TRUE)))
-  for (i in 1:length(lplex_normal_list_timepoints)) {
-    for (j in 1:length(lplex_treatments)) {
-      my_plot <- plot_pca(lplex_treatments[j], i)
-      if (typeof(my_plot) == "double") { # sometimes, the function doesn't have enough data to return a graph
-        cat(yellow("Plot skipped due to lack of data\n"))
-        next
+if (save_plots) {
+  local({
+    print("Saving pca plot images in output directory, deleting any old ones")
+    do.call(file.remove, list(list.files("output/pca_plot", full.names = TRUE)))
+    for (i in 1:length(lplex_normal_list_timepoints)) {
+      for (j in 1:length(lplex_treatments)) {
+        my_plot <- plot_pca(lplex_treatments[j], i)
+        if (typeof(my_plot) == "double") { # sometimes, the function doesn't have enough data to return a graph
+          cat(yellow("Plot skipped due to lack of data\n"))
+          next
+        }
+        cat(green("Saving image\n"))
+        ggsave(paste("output/pca_plot/", i, "_", j, ".png", sep = ""),
+               my_plot,
+               device = "png",
+               width = 12,
+               height = 7
+        )
       }
-      cat(green("Saving image\n"))
-      ggsave(paste("output/pca_plot/", i, "_", j, ".png", sep = ""),
-             my_plot,
-             device = "png",
-             width = 12,
-             height = 7
-      )
     }
-  }
-})
+  })
+}
+
+rm(save_plots)
 
 print("Process complete")

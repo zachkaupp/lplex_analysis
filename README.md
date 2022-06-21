@@ -59,5 +59,5 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 - put raw data stuff on hold
 - put table 1 stuff on hold (santiago)
 - put the log2fc range in the spider plots titles bc close values will be scaled to look more signifcant than they are
-- make option at tops of plot files to choose whether or not to save images
 - figure out why greek letters won't export in csv
+- take median of repeat treatments
