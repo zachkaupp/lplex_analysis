@@ -57,3 +57,4 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 - put the log2fc range in the spider plots titles bc close values will be scaled to look more signifcant than they are
 - figure out why greek letters won't export in csv (don't try .xlsx again, that was a nightmare) (if you do make sure to branch, and don't commit to main)
 - take median of repeat treatments
+- filter the input to whatever rows have values for the cytokines listed
