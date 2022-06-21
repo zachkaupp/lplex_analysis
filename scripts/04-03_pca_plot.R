@@ -97,9 +97,9 @@ if (save_plots) {
           next
         }
         cat(green("Saving image\n"))
-        ggsave(paste("output/pca_plot/", i, "_", j, ".png", sep = ""),
+        ggsave(paste("output/pca_plot/", i, "_", j, ".", export_format, sep = ""),
                my_plot,
-               device = "png",
+               device = export_format,
                width = 12,
                height = 7
         )

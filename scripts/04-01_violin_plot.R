@@ -43,9 +43,9 @@ if (save_plots) {
         cat(green("Saving image\n"))
         suppressWarnings(ggsave(paste("output/violin_plot/", i, "_",
                                       j - (min(lplex_data_columns) - 1), # start counting from 1
-                                      ".png", sep = ""),
+                                      ".", export_format, sep = ""),
                                 plot_violin(colnames(lplex_normal[j]),i),
-                                device = "png",
+                                device = export_format,
                                 width = 10,
                                 height = 7))
       }

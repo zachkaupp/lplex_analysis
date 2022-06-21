@@ -18,15 +18,10 @@ control <- "NIL" # negative control for data normalization
 
 # SPECIAL SETTINGS ---
 
-excluded_timepoints <- c("N/A") # if you remove this, it can't filter
+excluded_timepoints <- c("#N/A", "N/A", "NA") # if you remove this, it can't filter
 # the N/A properly for some reason
-excluded_groups <- c("#N/A", "N/A")
-
-# necessary columns:
-# - STIM
-# - GROUP
-# - TIMEPOINT
-# - ID
-# - cytokines?
+excluded_groups <- c("#N/A", "N/A", "NA")
+export_format <- "png" # Mac Preview allows multiple PNGs to be opened at
+# a time, unlike with PDF
 
 print("Process complete")

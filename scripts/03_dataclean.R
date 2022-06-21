@@ -18,7 +18,7 @@ if (length(file_location) > 1) {
 # READ THE FILE ---
 
 lplex <- read_csv(file_location,
-                  show_col_types = TRUE,
+                  show_col_types = FALSE,
                   col_types = strrep("c", 50))
 for (i in 1:length(lplex)) {
   if (i %in% lplex_data_columns) {
