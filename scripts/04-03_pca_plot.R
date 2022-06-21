@@ -2,10 +2,10 @@
 
 # see https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_pca.html
 
-plot_pca <- function(stim, timepoint_index = 1) {
+plot_pca <- function(treatment, timepoint_index = 1) {
   timepoint <- levels(factor(lplex_normal_list_timepoints[[timepoint_index]][["TIMEPOINT"]]))
   df <- lplex_normal_list_timepoints[[timepoint_index]] %>%
-    filter(STIM == stim)
+    filter(!!sym(col_treatment) == treatment)
   
   # stop if there are not enough data
   if (nrow(df) < 2) {
@@ -29,19 +29,19 @@ plot_pca <- function(stim, timepoint_index = 1) {
   pca_res <- prcomp(df_filtered, scale. = TRUE) # I don't know what scale does, but I think I need it
   plot <- autoplot(pca_res,
                    data = df,
-                   colour = "GROUP", 
+                   colour = col_group, 
                    loadings = TRUE,
                    loadings.label = TRUE,
                    loadings.colour = "cornsilk3",
                    loadings.label.size = 2.5) +
           theme_light() +
           labs(title = paste("[TIMEPOINT: ", timepoint, "] ",
-                             "[STIM: ", stim, "]",
+                             "[", col_treatment, ": ", treatment, "]",
                              sep = ""))
   return(plot)
 }
 
-plot_pca_cluster <- function(grouping = "STIM", timepoint_index = 1) {
+plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1) {
   # https://stackoverflow.com/questions/35402850/how-to-plot-knn-clusters-boundaries-in-r
   timepoint <- levels(factor(lplex_normal_list_timepoints[[timepoint_index]][["TIMEPOINT"]]))
   df <- lplex_normal_list_timepoints[[timepoint_index]]
@@ -77,8 +77,8 @@ plot_pca_cluster <- function(grouping = "STIM", timepoint_index = 1) {
                    loadings.colour = "cornsilk3",
                    loadings.label.size = 2.5) +
     theme_light() +
-    labs(title = paste("[TIMEPOINT: ", timepoint, "]",
-                      "[ACCURACY: ", accuracy_score, "]",
+    labs(title = paste("[TIMEPOINT: ", timepoint, "] ",
+                      "[ACCURACY: ", round(accuracy_score, 4), "]",
                       sep = ""))
   return(plot)
 }
@@ -87,8 +87,8 @@ local({
   print("Saving pca plot images in output directory, deleting any old ones")
   do.call(file.remove, list(list.files("output/pca_plot", full.names = TRUE)))
   for (i in 1:length(lplex_normal_list_timepoints)) {
-    for (j in 1:length(lplex_stims)) {
-      my_plot <- plot_pca(lplex_stims[j], i)
+    for (j in 1:length(lplex_treatments)) {
+      my_plot <- plot_pca(lplex_treatments[j], i)
       if (typeof(my_plot) == "double") { # sometimes, the function doesn't have enough data to return a graph
         cat(yellow("Plot skipped due to lack of data\n"))
         next

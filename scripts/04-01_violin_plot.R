@@ -4,9 +4,9 @@ plot_violin <- function(cytokine, timepoint_index = 1) {
   
   # make the plot, most of this is for appearance
   x <- ggplot(lplex_normal_list_timepoints[[timepoint_index]],
-              aes(x = STIM,
+              aes(x = !!sym(col_treatment),
                   y = lplex_normal_list_timepoints[[timepoint_index]][[cytokine]],
-                  fill = STIM)) + 
+                  fill = !!sym(col_treatment))) + 
     geom_violin(trim = FALSE, color = "black", scale = "width", width = .7) +
     geom_boxplot(width = 1, outlier.shape = NA, color = "darkblue", fill = NA) +
     geom_dotplot(binaxis = 'y', stackdir = "center",
@@ -14,24 +14,20 @@ plot_violin <- function(cytokine, timepoint_index = 1) {
                  binwidth = (diff(range(lplex_normal_list_timepoints[[timepoint_index]][[cytokine]]))/20), # this makes sure the the dots stay around the same size for every cytokine, it is a problem otherwise
                  color = "black",
                  fill = "white") + 
-    facet_wrap(~GROUP) +
+    facet_wrap(vars(!!sym(col_group))) +
     labs(title = paste("[TIMEPOINT: ",
                        levels(
                          factor(
-                           lplex_normal_list_timepoints[[timepoint_index]]$TIMEPOINT)),
+                           lplex_normal_list_timepoints[[timepoint_index]][[col_timepoint]])),
                        "]  [",
                        cytokine,
                        "]",
                        sep = "")) +
-    xlab("STIM") +
+    xlab(col_treatment) +
     ylab(paste(cytokine, "-- log2fc", cytokine, "/", control)) +
     theme_linedraw()
   return(x) # return the complete violin plot
 }
-
-print(paste("To access plot, run plot_violin(cytokine, timepoint_index). Choose from",
-            length(lplex_normal_list_timepoints), "TIMEPOINTs."))
-print("Plots are also stored in output/violin_plot")
 
 ## OUTPUT ---
 

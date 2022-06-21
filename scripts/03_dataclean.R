@@ -1,24 +1,5 @@
 ## Find the data, clean it, and normalize it
 
-# SETTINGS ---
-
-# column names
-
-# value names
-control <- "NIL" # negative control for data normalization
-
-# special settings
-excluded_timepoints <- c("N/A") # if you remove this, it can't filter
-# the N/A properly for some reason
-excluded_groups <- c("#N/A", "N/A")
-
-# necessary columns:
-# - STIM
-# - GROUP
-# - TIMEPOINT
-# - ID
-# - cytokines?
-
 # FIND THE FILE LOCATION ---
 print("NOTE: ONLY CSV FILES ACCEPTED")
 if (length(list.files(path = "data")) == 0) {
@@ -52,14 +33,14 @@ for (i in 1:length(lplex)) {
 # SEPARATE AND PRUNE THE DATAFRAME ---
 
 # separate by ID
-lplex_list <- split(lplex, f = lplex$ID)
+lplex_list <- split(lplex, f = lplex[[col_id]])
 
 # expand list out by TIMEPOINT, so every ID x TIMEPOINT
 # combination is a dataframe in a list
 lplex_list_expanded = list()
 added <- 0
 for (i in lplex_list) {
-  x <- split(i, i$TIMEPOINT)
+  x <- split(i, i[[col_timepoint]])
   for (j in x) {
     lplex_list_expanded[[added + 1]] <- j
     added <- added + 1
@@ -75,10 +56,10 @@ no_control <- 0
 repeats <- 0
 
 for (i in lplex_list_expanded) {
-  if (!(control %in% i$STIM)) { # this checks if it is missing a control
+  if (!(control %in% i[[col_treatment]])) { # this checks if it is missing a control
     lplex_list_no_control[[no_control + 1]] <- i
     no_control <- no_control + 1
-  } else if (length(i$STIM) > length(levels(factor(x = i$STIM)))) { # this checks if there are repeat STIMs
+  } else if (length(i[[col_treatment]]) > length(levels(factor(x = i[[col_treatment]])))) { # this checks if there are repeat treatments
     lplex_list_repeats[[repeats + 1]] <- i
     repeats <- repeats + 1
   } else { # otherwise, the data is good
@@ -93,7 +74,7 @@ lplex_repeats <- bind_rows(lplex_list_repeats)
 
 # update the user on the filtering process
 print(paste("Sets with no control: ", no_control))
-print(paste("Sets with repeat STIMs: ", repeats))
+print(paste("Sets with repeat treatments: ", repeats))
 print(paste("Total removed: ", no_control + repeats))
 print(paste("Sets remaining: ",length(lplex_list_filtered)))
 
@@ -107,19 +88,19 @@ lplex_normal <- bind_rows(x)
 
 # REMOVE GROUPS ---
 lplex_normal <- lplex_normal %>%
-  filter(!(GROUP %in% excluded_groups))
+  filter(!(!!sym(col_group) %in% excluded_groups))
 
 # SEPARATE DATAFRAME BASED ON TIMEPOINTS ---
 
 lplex_normal_list_timepoints <- list()
-timepoints <- levels(factor(lplex$TIMEPOINT))
+timepoints <- levels(factor(lplex[[col_timepoint]]))
 
 added <- 0
 for (i in timepoints) {
   if (i %in% excluded_timepoints) {
     next
   }
-  lplex_normal_list_timepoints[[added + 1]] <- filter(lplex_normal, TIMEPOINT == i)
+  lplex_normal_list_timepoints[[added + 1]] <- filter(lplex_normal, !!sym(col_timepoint) == i)
   added <- added + 1
 }
 
@@ -132,9 +113,9 @@ for (i in 1:length(lplex_normal)) {
   }
 }
 
-## FIND A LIST OF THE STIMS ---
+## FIND A LIST OF THE TREATMENTS ---
 
-lplex_stims <- levels(factor(lplex_normal$STIM))
+lplex_treatments <- levels(factor(lplex_normal[[col_treatment]]))
 
 ## OUTPUT ---
 
@@ -144,7 +125,7 @@ write_csv(lplex_normal, "output/filtered_data/normalized.csv")
 
 ## REMOVE UNNECESSARY VARIABLES ---
 
-rm(lplex, lplex_list, lplex_list_expanded, lplex_list_filtered,
+rm(lplex_list, lplex_list_expanded, lplex_list_filtered,
             lplex_list_no_control, lplex_list_repeats, lplex_no_control,
             lplex_repeats, j, x) # dataframes
 

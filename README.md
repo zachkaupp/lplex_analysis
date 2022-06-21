@@ -18,7 +18,7 @@ git clone https://github.com/zachkaupp/lplex_analysis.git
 # Run these in the R console to install
 # all the necessary packages
 
-install.packages(c("tidyverse", "tibble", "scales", "ggfortify", "devtools", "cluster", "crayon"))
+install.packages(c("tidyverse", "tibble", "scales", "ggfortify", "devtools", "cluster", "crayon", "glue"))
 
 library(devtools)
 devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
@@ -58,3 +58,6 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 - make a guide for formatting .csv input
 - put raw data stuff on hold
 - put table 1 stuff on hold (santiago)
+- put the log2fc range in the spider plots titles bc close values will be scaled to look more signifcant than they are
+- make option at tops of plot files to choose whether or not to save images
+- figure out why greek letters won't export in csv
