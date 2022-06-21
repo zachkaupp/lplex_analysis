@@ -50,11 +50,10 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 # TODO
 - pca plots and heatmaps, with clustering (euclidean and knn?) (pca plots done but with no clustering)
 - find nils and filter repeats
-- make sure datasets import with the right variable type in each column (may have to be manual) (get out < and >)
 - do i need to worry about outliers? or do they deal with that later
 - make a guide for formatting .csv input
 - put raw data stuff on hold
 - put table 1 stuff on hold (santiago)
 - put the log2fc range in the spider plots titles bc close values will be scaled to look more signifcant than they are
-- figure out why greek letters won't export in csv
+- figure out why greek letters won't export in csv (don't try .xlsx again, that was a nightmare) (if you do make sure to branch, and don't commit to main)
 - take median of repeat treatments

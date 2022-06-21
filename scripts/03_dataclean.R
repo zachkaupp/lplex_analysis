@@ -17,7 +17,14 @@ if (length(file_location) > 1) {
 
 # READ THE FILE ---
 
-lplex <- read_csv(file_location, show_col_types = FALSE)
+lplex <- read_csv(file_location,
+                  show_col_types = TRUE,
+                  col_types = strrep("c", 50))
+for (i in 1:length(lplex)) {
+  if (i %in% lplex_data_columns) {
+    lplex[[i]] <- parse_number(lplex[[i]])
+  }
+}
 
 # CLEAN THE DATAFRAME ---
 

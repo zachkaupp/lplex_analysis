@@ -9,6 +9,7 @@ library(cluster)
 suppressPackageStartupMessages(library(crayon))
 library(class)
 library(glue)
+suppressPackageStartupMessages(library(readr))
 
 # GITHUB packages
 library(ggradar)
