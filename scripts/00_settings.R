@@ -7,6 +7,11 @@ col_group <- "GROUP"
 col_treatment <- "STIM" 
 col_timepoint <- "TIMEPOINT"
 
+# COLUMN INDEXES (indices start at 1)
+
+lplex_data_columns <- c(6:18) # cytokine measurements
+lplex_metadata_columns <- c() # demographic data for clustering
+
 # VALUE NAMES ---
 
 control <- "NIL" # negative control for data normalization

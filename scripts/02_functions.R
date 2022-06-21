@@ -12,7 +12,7 @@ normalize <- function(input_tibble, denominator) {
     filter(!(!!sym(col_treatment) == denominator))
   for (i in 1:length(z)) {
     for (j in 1:nrow(z[,i])) {
-      if (typeof(z[[j,i]]) == "double") {
+      if (i %in% lplex_data_columns) {
         normal[j,i] <- log((z[j,i] / y[1,i]), 2)
       }
     }

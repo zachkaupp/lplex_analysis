@@ -49,12 +49,9 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 
 # TODO
 - pca plots and heatmaps, with clustering (euclidean and knn?) (pca plots done but with no clustering)
-- make it take more than just BADAS, with the other file i got sent
 - find nils and filter repeats
-- update how lplex_data_columns is found to be consistent with other datasets
-- make sure datasets import with the right variable type in each column (may have to be manual)
+- make sure datasets import with the right variable type in each column (may have to be manual) (get out < and >)
 - do i need to worry about outliers? or do they deal with that later
-- flexible naming (1)
 - make a guide for formatting .csv input
 - put raw data stuff on hold
 - put table 1 stuff on hold (santiago)

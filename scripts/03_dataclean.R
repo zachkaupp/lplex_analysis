@@ -31,6 +31,17 @@ for (i in 1:length(lplex)) {
 }
 colnames(lplex) <- toupper(colnames(lplex)) # this does the same thing for column names
 
+## FIND WHICH COLUMNS HAVE DATA ---
+if (length(lplex_data_columns) == 0) {
+  cat(yellow("lplex_data_columns is empty, attempting to find it automatically\n"))
+  lplex_data_columns <- c() # these are the indices for the columns that have cytokine data
+  for (i in 1:length(lplex)) {
+    if (typeof(lplex[[i]]) == "double") {
+      lplex_data_columns <- c(lplex_data_columns, i)
+    }
+  }
+}
+
 # SEPARATE AND PRUNE THE DATAFRAME ---
 
 # separate by ID
@@ -103,15 +114,6 @@ for (i in timepoints) {
   }
   lplex_normal_list_timepoints[[added + 1]] <- filter(lplex_normal, !!sym(col_timepoint) == i)
   added <- added + 1
-}
-
-## FIND WHICH COLUMNS HAVE DATA ---
-
-lplex_data_columns <- c() # these are the indices for the columns that have cytokine data
-for (i in 1:length(lplex_normal)) {
-  if (typeof(lplex_normal[[i]]) == "double") {
-    lplex_data_columns <- c(lplex_data_columns, i)
-  }
 }
 
 ## FIND A LIST OF THE TREATMENTS ---
