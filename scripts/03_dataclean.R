@@ -29,6 +29,7 @@ for (i in 1:length(lplex)) {
     }
   }
 }
+colnames(lplex) <- toupper(colnames(lplex)) # this does the same thing for column names
 
 # SEPARATE AND PRUNE THE DATAFRAME ---
 
