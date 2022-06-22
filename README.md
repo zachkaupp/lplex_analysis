@@ -41,7 +41,7 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 ### Spider plot -
 - Grouped by timepoint and treatment
 - Dot location determined by median
-- The farther out from the center, the higher the value is
+- Scale is based on log-2-fold-change
 
 ### PCA plot -
 - Grouped by timepoint and treatment
@@ -57,3 +57,4 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 - put the log2fc range in the spider plots titles bc close values will be scaled to look more signifcant than they are
 - figure out why greek letters won't export in csv (don't try .xlsx again, that was a nightmare) (if you do make sure to branch, and don't commit to main) (fix ifn gamma)
 - filter the input to whatever rows have values for the cytokines listed
+- find a way to visual just one value (e.g. NIL) for when they want that

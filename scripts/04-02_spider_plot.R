@@ -34,6 +34,11 @@ plot_spider <- function(treatment, timepoint_index = 1) {
   }
   median_plot <- bind_rows(median_plot_list) # put it back into a final dataframe with the medians
   
+  # find the max and min of the dataframe
+  log2fc_max <- max(select(median_plot, -!!sym(col_group)))
+  log2fc_min <- min(select(median_plot, -!!sym(col_group)))
+  log2fc_med <- median(c(log2fc_max, log2fc_min))
+  
   # rescale the dataframe, put it into ggradar, make it pretty, and add info
   spider_plot <- median_plot %>%
     mutate_at(vars(-!!sym(col_group)), ~rescale(., from = range(select(median_plot, -!!sym(col_group))))) %>%
@@ -52,7 +57,9 @@ plot_spider <- function(treatment, timepoint_index = 1) {
                          " data]",
                          sep = ""),
       legend.title = col_group,
-      values.radar = c("","",""),
+      values.radar = c(paste("[", round(log2fc_min, 2), "]", sep = ""),
+                       paste("[", round(log2fc_med, 2), "]", sep = ""),
+                       paste("[", round(log2fc_max, 2), "]", sep = "")),
       gridline.min.colour = "lightpink1",
       gridline.mid.colour = "khaki",
       gridline.max.colour = "olivedrab2",
