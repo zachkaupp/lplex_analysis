@@ -30,7 +30,7 @@ lplex <- lplex %>%
           !!sym(col_group),
           !!sym(col_treatment),
           !!sym(col_timepoint),
-          lplex_data_columns)
+          all_of(lplex_data_columns))
 possible_na_values <- c("NA", "N/A", "#N/A")
 for (i in append(list(col_id, col_group, col_treatment, col_timepoint),
                  lplex_data_columns)) { # this will take out NA values created by Excel
@@ -168,7 +168,7 @@ write_csv(lplex_na, "output/filtered_data/na.csv")
 
 rm(lplex_list, lplex_list_expanded, lplex_list_filtered,
             lplex_list_no_control, lplex_list_repeats, lplex_no_control,
-            lplex_repeats, j, x, lplex_na) # dataframes
+            lplex_repeats, j, x, y, lplex_na) # dataframes
 
 rm(added, i, file_location, no_control, repeats, timepoints, na_rows) # values
 
