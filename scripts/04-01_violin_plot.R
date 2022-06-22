@@ -42,7 +42,7 @@ if (save_plots) {
         # when there aren't enough data points, and that isn't a big deal
         cat(green("Saving image\n"))
         suppressWarnings(ggsave(paste("output/violin_plot/", i, "_",
-                                      j - (min(lplex_data_columns) - 1), # start counting from 1
+                                      j, # cytokine index
                                       ".", export_format, sep = ""),
                                 plot_violin(colnames(lplex_normal[j]),i),
                                 device = export_format,
