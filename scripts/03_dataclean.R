@@ -24,13 +24,26 @@ suppressWarnings( # because it will warn that it is saving some values as NA
 
 # get rid of rows with NA values in the necessary columns
 x <- nrow(lplex)
+y <- lplex
 lplex <- lplex %>%
-  drop_na(!!sym(col_id),
+  drop_na(!!sym(col_id), # this will take out NA values created by R
           !!sym(col_group),
           !!sym(col_treatment),
           !!sym(col_timepoint),
           lplex_data_columns)
+possible_na_values <- c("NA", "N/A", "#N/A")
+for (i in append(list(col_id, col_group, col_treatment, col_timepoint),
+                 lplex_data_columns)) { # this will take out NA values created by Excel
+  if (typeof(i) == "character") { # if it is a column name
+    lplex <- lplex %>%
+      filter(!(!!sym(i) %in% possible_na_values))
+  } else if (typeof(i) == "integer" | typeof(i) == "double") { # if it is a column index
+    lplex <- lplex %>%
+      filter(!(!!sym(colnames(lplex)[i]) %in% possible_na_values))
+  }
+}
 na_rows <- x - nrow(lplex)
+lplex_na <- setdiff(y, lplex)
 
 # change the data columns to number variables
 for (i in 1:length(lplex)) {
@@ -130,10 +143,6 @@ for (i in 1:length(lplex_list_filtered)) {
 }
 lplex_normal <- bind_rows(x)
 
-# REMOVE GROUPS ---
-lplex_normal <- lplex_normal %>%
-  filter(!(!!sym(col_group) %in% excluded_groups))
-
 # SEPARATE DATAFRAME BASED ON TIMEPOINTS ---
 
 lplex_normal_list_timepoints <- list()
@@ -153,12 +162,13 @@ for (i in timepoints) {
 write_csv(lplex_no_control, "output/filtered_data/no_control.csv")
 write_csv(lplex_repeats, "output/filtered_data/repeats.csv")
 write_csv(lplex_normal, "output/filtered_data/normalized.csv")
+write_csv(lplex_na, "output/filtered_data/na.csv")
 
 ## REMOVE UNNECESSARY VARIABLES ---
 
 rm(lplex_list, lplex_list_expanded, lplex_list_filtered,
             lplex_list_no_control, lplex_list_repeats, lplex_no_control,
-            lplex_repeats, j, x) # dataframes
+            lplex_repeats, j, x, lplex_na) # dataframes
 
 rm(added, i, file_location, no_control, repeats, timepoints, na_rows) # values
 
