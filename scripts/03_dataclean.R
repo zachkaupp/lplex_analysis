@@ -16,10 +16,23 @@ if (length(file_location) > 1) {
 }
 
 # READ THE FILE ---
+suppressWarnings( # because it will warn that it is saving some values as NA
+  lplex <- read_csv(file_location,
+                    show_col_types = FALSE,
+                    col_types = strrep("c", 99999)) # this is a bad way of making sure everything is read as a character
+)
 
-lplex <- read_csv(file_location,
-                  show_col_types = FALSE,
-                  col_types = strrep("c", 50))
+# get rid of rows with NA values in the necessary columns
+x <- nrow(lplex)
+lplex <- lplex %>%
+  drop_na(!!sym(col_id),
+          !!sym(col_group),
+          !!sym(col_treatment),
+          !!sym(col_timepoint),
+          lplex_data_columns)
+na_rows <- x - nrow(lplex)
+
+# change the data columns to number variables
 for (i in 1:length(lplex)) {
   if (i %in% lplex_data_columns) {
     lplex[[i]] <- parse_number(lplex[[i]])
@@ -102,8 +115,9 @@ lplex_no_control <- bind_rows(lplex_list_no_control)
 lplex_repeats <- bind_rows(lplex_list_repeats)
 
 # update the user on the filtering process
+print(paste("Rows with NA in necessary columns: ", na_rows))
 print(paste("Sets with no control: ", no_control))
-print(paste("Total removed: ", no_control))
+print(paste("Total removed (sets or rows): ", no_control + na_rows))
 print(paste("Sets with repeat treatments: ", repeats))
 print(paste("Total averaged (by median): ", repeats))
 print(paste("Sets remaining: ",length(lplex_list_filtered)))
@@ -146,6 +160,6 @@ rm(lplex_list, lplex_list_expanded, lplex_list_filtered,
             lplex_list_no_control, lplex_list_repeats, lplex_no_control,
             lplex_repeats, j, x) # dataframes
 
-rm(added, i, file_location, no_control, repeats, timepoints) # values
+rm(added, i, file_location, no_control, repeats, timepoints, na_rows) # values
 
 print("Process complete")

@@ -54,7 +54,6 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 - make a guide for formatting .csv input
 - put raw data stuff on hold
 - put table 1 stuff on hold (santiago)
-- put the log2fc range in the spider plots titles bc close values will be scaled to look more signifcant than they are
 - figure out why greek letters won't export in csv (don't try .xlsx again, that was a nightmare) (if you do make sure to branch, and don't commit to main) (fix ifn gamma)
-- filter the input to whatever rows have values for the cytokines listed
 - find a way to visual just one value (e.g. NIL) for when they want that
+- make the timepoint column optional
