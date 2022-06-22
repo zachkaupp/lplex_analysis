@@ -6,6 +6,7 @@ This project provides graphical information about legendplex data
 | ID                         | GROUP                                          | TREATMENT | TIMEPOINT                                                                                   |
 |----------------------------|------------------------------------------------|-----------|---------------------------------------------------------------------------------------------|
 | Participant Identification | Group (experimental, control, etc.) Identifier | Stim      | In studies without a timepoint, create a TIMEPOINT column and fill it with a constant value |
+### *Change column names and specify data columns in 00_settings.R
 
 ## To Use:
 
