@@ -17,7 +17,7 @@ git clone https://github.com/zachkaupp/lplex_analysis.git
 
 
 
-# TODO
+#### TODO
 
 -   heatmaps
 -   finish pca clustering
