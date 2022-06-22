@@ -22,7 +22,6 @@ git clone https://github.com/zachkaupp/lplex_analysis.git
 -   heatmaps
 -   finish pca clustering
 -   flag some outliers? (on hold?)
--   make a guide for formatting .csv input
 -   put raw data stuff on hold
 -   put table 1 stuff on hold (santiago)
 -   figure out why greek letters won't export in csv (don't try .xlsx again, that was a nightmare) (if you do make sure to branch, and don't commit to main) (fix ifn gamma)
