@@ -4,10 +4,13 @@
 
 # this normalizes to the control with log-2-fold-change
 normalize <- function(input_tibble, denominator) {
-  y <- input_tibble %>%
+  y <- input_tibble %>% # 1 row tibble with control values
     filter(!!sym(col_treatment) == denominator)
-  z <- input_tibble %>%
+  z <- input_tibble %>% # tibble with all the other values
     filter(!(!!sym(col_treatment) == denominator))
+  if (nrow(z) == 0) {
+    return(z)
+  }
   normal <- input_tibble %>%
     filter(!(!!sym(col_treatment) == denominator))
   for (i in 1:length(z)) {

@@ -1,5 +1,11 @@
 ## Find the data, clean it, and normalize it
 
+# STANDARDIZE COL_NAMES --- 
+col_id <- sub(" ", "_", toupper(col_id))
+col_group <- sub(" ", "_", toupper(col_group))
+col_treatment <- sub(" ", "_", toupper(col_treatment))
+col_timepoint <- sub(" ", "_", toupper(col_timepoint))
+
 # FIND THE FILE LOCATION ---
 print("NOTE: ONLY CSV FILES ACCEPTED")
 if (length(list.files(path = "data")) == 0) {
@@ -21,6 +27,21 @@ suppressWarnings( # because it will warn that it is saving some values as NA
                     show_col_types = FALSE,
                     col_types = strrep("c", 99999)) # this is a bad way of making sure everything is read as a character
 )
+
+# CLEAN THE DATAFRAME ---
+
+# take spaces and newlines out of column names
+colnames(lplex) <- sub(" ", "_", colnames(lplex))
+
+# Make everything uppercase so it isn't case sensitive
+for (i in 1:length(lplex)) {
+  for (j in 1:nrow(lplex[,i])) {
+    if (typeof(lplex[[j,i]]) == "character") {
+      lplex[j,i] <- toupper(lplex[j,i])
+    }
+  }
+}
+colnames(lplex) <- toupper(colnames(lplex)) # this does the same thing for column names
 
 # get rid of rows with NA values in the necessary columns
 x <- nrow(lplex)
@@ -51,18 +72,6 @@ for (i in 1:length(lplex)) {
     lplex[[i]] <- parse_number(lplex[[i]])
   }
 }
-
-# CLEAN THE DATAFRAME ---
-
-# Make everything uppercase so it isn't case sensitive
-for (i in 1:length(lplex)) {
-  for (j in 1:nrow(lplex[,i])) {
-    if (typeof(lplex[[j,i]]) == "character") {
-      lplex[j,i] <- toupper(lplex[j,i])
-    }
-  }
-}
-colnames(lplex) <- toupper(colnames(lplex)) # this does the same thing for column names
 
 ## FIND WHICH COLUMNS HAVE DATA ---
 if (length(lplex_data_columns) == 0) {
