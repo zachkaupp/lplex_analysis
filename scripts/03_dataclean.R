@@ -49,6 +49,12 @@ if (length(lplex_data_columns) == 0) {
   }
 }
 
+## FIND A LIST OF THE TREATMENTS ---
+
+lplex_treatments <- levels(factor(lplex[[col_treatment]])) # get all the treatments
+lplex_treatments <- lplex_treatments[!lplex_treatments %in% control] # take out the control treatment
+
+
 # SEPARATE AND PRUNE THE DATAFRAME ---
 
 # separate by ID
@@ -80,7 +86,11 @@ for (i in lplex_list_expanded) {
     no_control <- no_control + 1
   } else if (length(i[[col_treatment]]) > length(levels(factor(x = i[[col_treatment]])))) { # this checks if there are repeat treatments
     lplex_list_repeats[[repeats + 1]] <- i
+    lplex_list_filtered[[added + 1]] <- average_repeats(i,
+                                                        lplex_treatments,
+                                                        lplex_data_columns)
     repeats <- repeats + 1
+    added <- added + 1
   } else { # otherwise, the data is good
     lplex_list_filtered[[added + 1]] <- i
     added <- added + 1
@@ -93,8 +103,9 @@ lplex_repeats <- bind_rows(lplex_list_repeats)
 
 # update the user on the filtering process
 print(paste("Sets with no control: ", no_control))
+print(paste("Total removed: ", no_control))
 print(paste("Sets with repeat treatments: ", repeats))
-print(paste("Total removed: ", no_control + repeats))
+print(paste("Total averaged (by median): ", repeats))
 print(paste("Sets remaining: ",length(lplex_list_filtered)))
 
 # NORMALIZE THE DATA AND MERGE ---
@@ -122,10 +133,6 @@ for (i in timepoints) {
   lplex_normal_list_timepoints[[added + 1]] <- filter(lplex_normal, !!sym(col_timepoint) == i)
   added <- added + 1
 }
-
-## FIND A LIST OF THE TREATMENTS ---
-
-lplex_treatments <- levels(factor(lplex_normal[[col_treatment]]))
 
 ## OUTPUT ---
 

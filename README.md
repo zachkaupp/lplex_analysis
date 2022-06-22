@@ -48,13 +48,12 @@ devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
 - Clustering includes all treatments in order to have enough data for accurate clusters (IN SOME CASES, THIS MAY BE MISLEADING)
 
 # TODO
-- pca plots and heatmaps, with clustering (euclidean and knn?) (pca plots done but with no clustering)
-- find nils and filter repeats
-- do i need to worry about outliers? or do they deal with that later
+- heatmaps
+- finish pca clustering
+- flag some outliers? (on hold?)
 - make a guide for formatting .csv input
 - put raw data stuff on hold
 - put table 1 stuff on hold (santiago)
 - put the log2fc range in the spider plots titles bc close values will be scaled to look more signifcant than they are
-- figure out why greek letters won't export in csv (don't try .xlsx again, that was a nightmare) (if you do make sure to branch, and don't commit to main)
-- take median of repeat treatments
+- figure out why greek letters won't export in csv (don't try .xlsx again, that was a nightmare) (if you do make sure to branch, and don't commit to main) (fix ifn gamma)
 - filter the input to whatever rows have values for the cytokines listed

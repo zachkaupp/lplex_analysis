@@ -3,7 +3,7 @@
 save_plots <- TRUE
 
 plot_spider <- function(treatment, timepoint_index = 1) {
-  
+
   # create starting variables
   start_plot <- lplex_normal_list_timepoints[[timepoint_index]]
   spider_plot_columns <- c(which(colnames(start_plot) == col_group), # this saves the column numbers for the group and all the data columns
@@ -76,7 +76,7 @@ if (save_plots) {
         ggsave(paste("output/spider_plot/", i, "_", j,".", export_format, sep = ""),
                plot_spider(lplex_treatments[[j]], i),
                device = export_format,
-               width = 10,
+               width = 11,
                height = 7
         )
       }
