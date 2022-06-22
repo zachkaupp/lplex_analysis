@@ -21,6 +21,8 @@
 git clone https://github.com/zachkaupp/lplex_analysis.git
 ```
 
+- Access [quick start](https://github.com/zachkaupp/lplex_analysis/blob/main/docs/quick_start.md) or [guide](https://github.com/zachkaupp/lplex_analysis/blob/main/docs/guide.md)
+
 ## To Use:
 
 -   Export legendplex data as a .csv, and put it in the `data` directory
