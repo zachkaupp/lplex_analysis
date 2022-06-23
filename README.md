@@ -2,18 +2,16 @@
 
 ## Getting Started
 
--   [Download](https://cran.r-project.org/) R, if your computer does not have it
+1.   [Download](https://cran.r-project.org/) R, if your computer does not have it (to check if your computer has it, try `R` in your terminal or command line)
 
--   To check if your computer has it, try `R` in your terminal or command line
+2.   [Download](https://www.rstudio.com/products/rstudio/download/) the RStudio IDE
 
--   [Download](https://www.rstudio.com/products/rstudio/download/) the RStudio IDE
-
-- Clone this repository (in terminal or command line, more help [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)):
+3. Clone this repository (in terminal or command line, more help [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)):
 ```
 git clone https://github.com/zachkaupp/lplex_analysis.git
 ```
 
-- Access [quick start](https://github.com/zachkaupp/lplex_analysis/blob/main/docs/quick_start.md) or [guide](https://github.com/zachkaupp/lplex_analysis/blob/main/docs/guide.md)
+4. Access [quick start](https://github.com/zachkaupp/lplex_analysis/blob/main/docs/quick_start.md) or [guide](https://github.com/zachkaupp/lplex_analysis/blob/main/docs/guide.md)
 
 
 
