@@ -8,7 +8,7 @@
 
 -   [Download](https://www.rstudio.com/products/rstudio/download/) the RStudio IDE
 
-- Clone this repository:
+- Clone this repository (in terminal or command line, more help [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)):
 ```
 git clone https://github.com/zachkaupp/lplex_analysis.git
 ```
