@@ -17,4 +17,4 @@ library(ggradar)
 # dependencies = TRUE)", but install 'devtools' from CRAN beforehand
 
 
-print("Process complete")
+cat(cyan("Process complete"))

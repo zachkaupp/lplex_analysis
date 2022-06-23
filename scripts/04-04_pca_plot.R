@@ -110,4 +110,4 @@ if (save_plots) {
 
 rm(save_plots)
 
-print("Process complete")
+cat(cyan("Process complete"))

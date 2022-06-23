@@ -24,4 +24,4 @@ excluded_groups <- c("#N/A", "N/A", "NA")
 export_format <- "png" # Mac Preview allows multiple PNGs to be opened at
 # a time, unlike with PDF
 
-print("Process complete")
+cat("Settings saved")
