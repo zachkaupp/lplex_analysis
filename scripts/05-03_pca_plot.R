@@ -5,7 +5,7 @@
 save_plots <- TRUE
 
 plot_pca <- function(treatment, timepoint_index = 1) {
-  timepoint <- levels(factor(lplex_normal_list_timepoints[[timepoint_index]][["TIMEPOINT"]]))
+  timepoint <- levels(factor(lplex_normal_list_timepoints[[timepoint_index]][[col_timepoint]]))
   df <- lplex_normal_list_timepoints[[timepoint_index]] %>%
     filter(!!sym(col_treatment) == treatment)
   
