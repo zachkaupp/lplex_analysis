@@ -52,4 +52,4 @@ average_repeats <- function(input_tibble, treatments, data_columns) {
   return(bind_rows(list_averaged))
 }
 
-cat(cyan("Process complete"))
+cat(cyan("Process complete\n"))

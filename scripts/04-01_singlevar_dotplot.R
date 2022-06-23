@@ -1,5 +1,7 @@
 ## Plot single variables before/after normalization for more basic visualization needs
 
+save_plots <- TRUE
+
 singlevar_dotplot <- function(data_column, timepoint_index = 1, normalized = FALSE) {
   timepoint <- levels(factor(lplex_normal_list_timepoints[[timepoint_index]][[col_timepoint]]))
   
@@ -26,8 +28,19 @@ singlevar_dotplot <- function(data_column, timepoint_index = 1, normalized = FAL
     }
   }
   
+  # get the right x-axis label
+  if (normalized) {
+    x_axis_label <- paste(colnames(lplex)[[data_column]],
+                          " -- log2fc (",
+                          colnames(lplex)[[data_column]],
+                          "/", control, ")", sep = "")
+  } else {
+    x_axis_label <- paste(colnames(lplex)[[data_column]],
+                          " (nanograms)", sep = "")
+  }
+  
   # get the right color for the plot
-  if (normalized) {plot_color <- "green"} else {plot_color <- "red"}
+  if (normalized) {plot_color <- "seagreen"} else {plot_color <- "red3"}
   
   # plot the data
   my_plot <- ggplot(plot_data,
@@ -40,10 +53,40 @@ singlevar_dotplot <- function(data_column, timepoint_index = 1, normalized = FAL
     facet_wrap(vars(!!sym(col_treatment))) +
     labs(title = paste("[", col_timepoint, ": ", timepoint, "] ",
                        "[OUTLIERS (2 * IQR): ", outliers, "]", sep = "")) +
-    xlab(colnames(lplex)[[data_column]])
+    xlab(x_axis_label) +
+    theme_linedraw()
   
   return(my_plot)
 }
 
+## OUTPUT ---
+if (save_plots) {
+  local({ # local() puts variables in a local scope
+    print("Saving singlevar dot plot nonnormalized images in output directory, deleting any old ones")
+    do.call(file.remove, list(list.files("output/singlevar_plots/dot_plot/nonnormalized/", full.names = TRUE)))
+    for (i in 1:length(lplex_normal_list_timepoints)) {
+      for (j in lplex_data_columns) {
+        cat(green("Saving image\n"))
+        ggsave(paste("output/singlevar_plots/dot_plot/nonnormalized/", i, "_", j, ".", export_format, sep = ""),
+               singlevar_dotplot(j, i, FALSE),
+               device = export_format,
+               width = 10, height = 7)
+      }
+    }
+    print("Saving singlevar dot plot normalized images in output directory, deleting any old ones")
+    do.call(file.remove, list(list.files("output/singlevar_plots/dot_plot/normalized/", full.names = TRUE)))
+    for (i in 1:length(lplex_normal_list_timepoints)) {
+      for (j in lplex_data_columns) {
+        cat(green("Saving image\n"))
+        ggsave(paste("output/singlevar_plots/dot_plot/normalized/", i, "_", j, ".", export_format, sep = ""),
+               singlevar_dotplot(j, i, TRUE),
+               device = export_format,
+               width = 10, height = 7)
+      }
+    }
+  })
+}
 
-cat(cyan("Process complete"))
+rm(save_plots)
+
+cat(cyan("Process complete\n"))

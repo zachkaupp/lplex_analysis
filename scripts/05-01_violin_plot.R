@@ -26,7 +26,7 @@ plot_violin <- function(cytokine, timepoint_index = 1) {
                        "]",
                        sep = "")) +
     xlab(col_treatment) +
-    ylab(paste(cytokine, "-- log2fc", cytokine, "/", control)) +
+    ylab(paste(cytokine, " -- log2fc (",  cytokine, "/", control, ")", sep = "")) +
     theme_linedraw()
   return(x) # return the complete violin plot
 }
@@ -55,4 +55,4 @@ if (save_plots) {
 
 rm(save_plots)
 
-cat(cyan("Process complete"))
+cat(cyan("Process complete\n"))

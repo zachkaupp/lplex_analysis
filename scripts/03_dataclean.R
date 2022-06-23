@@ -181,4 +181,4 @@ rm(lplex_list, lplex_list_expanded, lplex_list_filtered,
 
 rm(added, i, file_location, no_control, repeats, timepoints, na_rows) # values
 
-cat(cyan("Process complete"))
+cat(cyan("Process complete\n"))
