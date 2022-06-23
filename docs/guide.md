@@ -22,3 +22,9 @@
 -   Grouped by timepoint and treatment
 -   Clustering includes all treatments in order to have enough data for accurate clusters (IN SOME CASES, THIS MAY BE MISLEADING)
 -   File Name Format: TIMEPOINT_TREATMENT
+
+### Singlevar dot plot -
+
+- Outliers calculated so that harshly skewed data can still be shown in an interpretable format
+- Outliers are still included in the graph, but at the edge, on the side they would have been off the side of
+- Data is shown regardless of GROUP, so now conclusions can be made from these plots, as they are only meant to give a snapshot of the variable distributions
