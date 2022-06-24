@@ -23,5 +23,6 @@ excluded_timepoints <- c("#N/A", "N/A", "NA") # if you remove this, it can't fil
 excluded_groups <- c("#N/A", "N/A", "NA")
 export_format <- "png" # Mac Preview allows multiple PNGs to be opened at
 # a time, unlike with PDF
+possible_na_values <- c("NA", "N/A", "#N/A", "#NAME?")
 
 cat("Settings saved")

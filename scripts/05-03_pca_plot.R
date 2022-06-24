@@ -43,37 +43,91 @@ plot_pca <- function(treatment, timepoint_index = 1) {
   return(plot)
 }
 
-plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1) {
+plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1, acc_only = FALSE, avg_acc = NULL) {
   # https://stackoverflow.com/questions/35402850/how-to-plot-knn-clusters-boundaries-in-r
+  
+  # this does knn clustering
   timepoint <- levels(factor(lplex_normal_list_timepoints[[timepoint_index]][["TIMEPOINT"]]))
-  df <- lplex_normal_list_timepoints[[timepoint_index]]
-  idx <- sample(1:nrow(df), size = ceiling(nrow(df) * 2/3))
+  df <- lplex_normal_list_timepoints[[timepoint_index]] %>% #filter out NA values
+    filter(!(!!sym(grouping) %in% possible_na_values))
+  idx <- sample(1:nrow(df), size = ceiling(nrow(df) * 2/3)) # split into train and test dataframes
   train.idx <- 1:nrow(df) %in% idx
   test.idx <- ! 1:nrow(df) %in% idx
   train <- df[train.idx, lplex_data_columns]
   test <- df[test.idx, lplex_data_columns]
   labels <- df[train.idx, grouping]
-  fit <- knn(train, test, labels[[grouping]])
-  plot.df <- data.frame(test, predicted = fit)
+  fit <- knn(train, test, labels[[grouping]]) # fit the knn model
+  plot.df <- data.frame(test, predicted = fit) # format the data for comparison
   plot.df.actual <- data.frame(test, df[test.idx, grouping])
-  plot.df.filtered <- plot.df %>%
-    select(-predicted)
+  full_data <- df[,lplex_data_columns]# format the data for PCA
+  full_data <- data.frame(full_data, df[, grouping])
+  plot.df.filtered <- full_data %>% 
+    select(-!!sym(grouping))
   pca_res <- prcomp(plot.df.filtered, scale. = TRUE) # I don't know what scale does, but I think I need it
-  
-  # this calculates the accuracy of the clustering
+
+  # this calculates the accuracy of the clustering using F1
+  # https://towardsdatascience.com/multi-class-metrics-made-simple-part-ii-the-f1-score-ebe8b2c2ca1
   predicted <- plot.df[["predicted"]]
   actual <- plot.df.actual[[grouping]]
-  correct <- 0
-  for (i in 1:length(predicted)) {
-    if (predicted[i] == actual[i]) {
-      correct <- correct + 1
+  f1_scores <- data.frame(matrix(ncol = 4, nrow = 0))
+  colnames(f1_scores) <- c("class", "precision", "recall", "f1")
+  classes <- levels(factor(labels[[1]]))
+  predicted_total <- list()
+  actual_total <- list()
+  for (i in 1:length(classes)) { # get the total number for each class predicted and actual
+    if (classes[[i]] %in% names(table(predicted))) {
+      predicted_total[[i]] <- table(predicted)[[classes[[i]]]]
+    } else {
+      predicted_total[[i]] <- 0
+    }
+    if (classes[[i]] %in% names(table(actual))) {
+      actual_total[[i]] <- table(actual)[[classes[[i]]]]
+    } else {
+      actual_total[[i]] <- 0
     }
   }
-  accuracy_score <- correct / length(predicted) # the relative amount the clustering got correct
+  correct <- as.list(rep(0, length(classes)))
+  for (i in 1:length(actual)) {
+    if (actual[[i]] == predicted[[i]]) {
+      correct[[match(actual[[i]], classes)]] <- correct[[match(actual[[i]], classes)]] + 1
+    }
+  }
+  precision <- list() # calculate precision and accuracy per class
+  recall <- list()
+  for (i in 1:length(correct)) {
+    precision[[i]] <- correct[[i]]/predicted_total[[i]]
+    recall[[i]] <- correct[[i]]/actual_total[[i]]
+  }
+  precision[is.na(precision)] <- 0
+  recall[is.na(recall)] <- 0
+  f1_scores <- list() # get f1 scores per class
+  for (i in 1:length(precision)) {
+    p <- precision[[i]]
+    r <- recall[[i]]
+    f1_scores[[i]] <- (2 * ((p * r)/(p + r)))
+  }
+  f1_scores[is.na(f1_scores)] <- 0
+  # print(f1_scores)
+  # print(actual_total)
   
+  # summarize the scores into one single F1 score
+  numerator <- 0
+  for (i in 1:length(f1_scores)) {
+    numerator <- numerator + (f1_scores[[i]] * actual_total[[i]])
+  }
+  accuracy_score <- numerator / Reduce('+', actual_total)
+  
+  # only return the accuracy, and set accuracy for the graph if an external function averaged it
+  if (acc_only) {
+    return(accuracy_score)
+  } else if (!is.null(avg_acc)) {
+    accuracy_score <- avg_acc
+  }
+  
+  # plot the clustering
   plot <- autoplot(pca_res,
-                   data = plot.df,
-                   colour = "predicted",
+                   data = full_data,
+                   colour = grouping,
                    loadings = TRUE,
                    loadings.label = TRUE,
                    loadings.colour = "cornsilk3",
@@ -84,6 +138,8 @@ plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1) {
                       sep = ""))
   return(plot)
 }
+
+## OUTPUT ---
 
 if (save_plots) {
   local({

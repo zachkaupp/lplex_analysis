@@ -52,7 +52,6 @@ lplex <- lplex %>%
           !!sym(col_treatment),
           !!sym(col_timepoint),
           all_of(lplex_data_columns))
-possible_na_values <- c("NA", "N/A", "#N/A")
 for (i in append(list(col_id, col_group, col_treatment, col_timepoint),
                  lplex_data_columns)) { # this will take out NA values created by Excel
   if (typeof(i) == "character") { # if it is a column name
