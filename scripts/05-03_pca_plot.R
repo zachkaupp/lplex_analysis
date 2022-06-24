@@ -116,6 +116,8 @@ plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1, acc_
     numerator <- numerator + (f1_scores[[i]] * actual_total[[i]])
   }
   accuracy_score <- numerator / Reduce('+', actual_total)
+  accuracy_score <- accuracy_score * length(classes) # this makes sure that clustering with less variables doesn't guarantee it a higher score
+  print(classes)
   
   # only return the accuracy, and set accuracy for the graph if an external function averaged it
   if (acc_only) {
@@ -137,6 +139,27 @@ plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1, acc_
                       "[ACCURACY: ", round(accuracy_score, 4), "]",
                       sep = ""))
   return(plot)
+}
+
+# automatically find the best cluster and plot it,
+# or return a list of the best clusters ranked
+pca_automatic_clustering <- function(give_rankings = FALSE, timepoint_index = 1) {
+  if (length(lplex_metadata_columns) == 0) { # make sure the metadata is specified
+    stop("lplex_metadata_columns is empty")
+  }
+  acc_scores <- list()
+  added <- 0
+  for (i in 1:length(lplex_metadata_columns)) { # for each column of metadata
+    acc <- 0
+    for (j in 1:10) { # find the accuracy score 5 times
+      acc <- acc + plot_pca_cluster(colnames(lplex_normal)[[lplex_metadata_columns[[i]]]],
+                            timepoint_index = timepoint_index,
+                            acc_only = TRUE)
+    }
+    acc_scores[[i]] <- (acc / 10) # and take the average
+    added <- added + 1
+  }
+  return(acc_scores)
 }
 
 ## OUTPUT ---
