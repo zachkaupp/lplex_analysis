@@ -35,8 +35,7 @@ singlevar_dotplot <- function(data_column, timepoint_index = 1, normalized = FAL
                           colnames(lplex)[[data_column]],
                           "/", control, ")", sep = "")
   } else {
-    x_axis_label <- paste(colnames(lplex)[[data_column]],
-                          " (nanograms)", sep = "")
+    x_axis_label <- colnames(lplex)[[data_column]]
   }
   
   # get the right color for the plot
@@ -67,10 +66,12 @@ if (save_plots) {
     for (i in 1:length(lplex_normal_list_timepoints)) {
       for (j in lplex_data_columns) {
         cat(green("Saving image\n"))
-        ggsave(paste("output/singlevar_plots/dot_plot/nonnormalized/", i, "_", j, ".", export_format, sep = ""),
-               singlevar_dotplot(j, i, FALSE),
-               device = export_format,
-               width = 10, height = 7)
+        suppressWarnings( # expected warning: Warning: Use of `plot_data[[data_column]]` is discouraged. Use `.data[[data_column]]` instead. - if that is changed it won't work
+          ggsave(paste("output/singlevar_plots/dot_plot/nonnormalized/", i, "_", j, ".", export_format, sep = ""),
+                 singlevar_dotplot(j, i, FALSE),
+                 device = export_format,
+                 width = 10, height = 7)
+        )
       }
     }
     print("Saving singlevar dot plot normalized images in output directory, deleting any old ones")
@@ -78,10 +79,12 @@ if (save_plots) {
     for (i in 1:length(lplex_normal_list_timepoints)) {
       for (j in lplex_data_columns) {
         cat(green("Saving image\n"))
-        ggsave(paste("output/singlevar_plots/dot_plot/normalized/", i, "_", j, ".", export_format, sep = ""),
-               singlevar_dotplot(j, i, TRUE),
-               device = export_format,
-               width = 10, height = 7)
+        suppressWarnings( # expected warning: Warning: Use of `plot_data[[data_column]]` is discouraged. Use `.data[[data_column]]` instead. - if that is changed it won't work
+          ggsave(paste("output/singlevar_plots/dot_plot/normalized/", i, "_", j, ".", export_format, sep = ""),
+                 singlevar_dotplot(j, i, TRUE),
+                 device = export_format,
+                 width = 10, height = 7)
+        )
       }
     }
   })

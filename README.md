@@ -19,7 +19,6 @@ git clone https://github.com/zachkaupp/lplex_analysis.git
 
 -   heatmaps
 -   finish pca clustering
--   flag some outliers? (on hold?)
 -   put raw data stuff on hold
 -   put table 1 stuff on hold (santiago)
 -   figure out why greek letters won't export in csv (don't try .xlsx again, that was a nightmare) (if you do make sure to branch, and don't commit to main) (fix ifn gamma)
@@ -28,6 +27,5 @@ git clone https://github.com/zachkaupp/lplex_analysis.git
 - color dot plots by groups?
 - put number of datapoints in violin plots
 - note: 1 is healthy, 2 is tb
-- get rid of measurement units bc they change (violin plots, etc)
 - try new lplex set from santi
 - check normalization based on full dems set from santi
