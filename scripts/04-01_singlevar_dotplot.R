@@ -19,11 +19,11 @@ singlevar_dotplot <- function(data_column, timepoint_index = 1, normalized = FAL
   med <- median(plot_data[[data_column]])
   outliers <- 0
   for (i in 1:nrow(plot_data)) {
-    if (plot_data[[data_column]][[i]] > (med + (2*iqr))) {
-      plot_data[[data_column]][[i]] <- (med + (2*iqr))
+    if (plot_data[[data_column]][[i]] > (med + (outlier_crit*iqr))) {
+      plot_data[[data_column]][[i]] <- (med + (outlier_crit*iqr))
       outliers <- outliers + 1
-    } else if (plot_data[[data_column]][[i]] < (med - (2*iqr))) {
-      plot_data[[data_column]][[i]] <- (med - (2*iqr))
+    } else if (plot_data[[data_column]][[i]] < (med - (outlier_crit*iqr))) {
+      plot_data[[data_column]][[i]] <- (med - (outlier_crit*iqr))
       outliers <- outliers + 1
     }
   }
@@ -44,11 +44,12 @@ singlevar_dotplot <- function(data_column, timepoint_index = 1, normalized = FAL
     geom_dotplot(dotsize = .7,
                  binwidth = ((1/20)*iqr),
                  stackgroups = TRUE,
-                 binpositions = "all") +
+                 binpositions = "all",
+                 colour = "white") +
     scale_y_continuous(NULL, breaks = NULL) +
     facet_wrap(vars(!!sym(col_treatment))) +
     labs(title = paste("[", col_timepoint, ": ", timepoint, "] ",
-                       "[OUTLIERS (2 * IQR): ", outliers, "]", sep = "")) +
+                       "[OUTLIERS (", outlier_crit, "* IQR): ", outliers, "]", sep = "")) +
     xlab(x_axis_label) +
     theme_linedraw()
   
