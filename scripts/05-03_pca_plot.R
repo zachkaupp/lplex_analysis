@@ -188,6 +188,7 @@ pca_automatic_clustering <- function(give_rankings = FALSE, timepoint_index = 1)
   }
   acc_scores <- list()
   added <- 0
+  all_categorical <- list() # keep track of which variables are categorical
   for (i in 1:length(lplex_metadata_columns)) { # for each column of metadata
     acc <- 0
     
@@ -206,6 +207,7 @@ pca_automatic_clustering <- function(give_rankings = FALSE, timepoint_index = 1)
     }
     acc_scores[[i]] <- (acc / iterations) # and take the average
     added <- added + 1
+    all_categorical[[i]] <- categorical
   }
   names(acc_scores) <- colnames(lplex_normal)[lplex_metadata_columns]
   
@@ -219,26 +221,21 @@ pca_automatic_clustering <- function(give_rankings = FALSE, timepoint_index = 1)
   # return the plot of the best one
   best_acc <- 0
   best_name <- ""
+  best_categorical <- TRUE
   for (i in 1:length(acc_scores)) {
     datum_name <- names(acc_scores[i])
     datum_acc <- acc_scores[[i]]
     if (best_acc < datum_acc) {
       best_name <- datum_name
       best_acc <- datum_acc
+      best_categorical <- all_categorical[[i]]
     }
   }
   
-  # categorical or quantitative column?
-  input <- readline(paste("Categorical or Quantitative [Final] -",
-                          best_name, # TODO
-                          "(c/q):"))
-  if (input == "c") {categorical <- TRUE}
-  else if (input == "q") {categorical <- FALSE}
-  else {stop("Unknown Response")}
   return(plot_pca_cluster(grouping = best_name,
                           timepoint_index = timepoint_index,
                           avg_acc = best_acc,
-                          categorical = categorical))
+                          categorical = best_categorical))
 }
 
 ## OUTPUT ---
