@@ -10,7 +10,7 @@ First, make sure that the input data has these required columns
 
 With the data:
 1. Export it as a .csv
-2. Place your .csv into the `data` file of this repository
+2. Place your .csv into the `data` folder of this repository
 
 ## Set up RStudio
 
