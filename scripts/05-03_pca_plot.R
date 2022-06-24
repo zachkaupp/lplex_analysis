@@ -198,7 +198,7 @@ pca_automatic_clustering <- function(give_rankings = FALSE, timepoint_index = 1)
     else if (input == "q") {categorical <- FALSE}
     else {stop("Unknown Response")}
     
-    for (j in 1:20) { # find the accuracy score 5 times
+    for (j in 1:20) { # find the accuracy score many times
       acc <- acc + plot_pca_cluster(colnames(lplex_normal)[[lplex_metadata_columns[[i]]]],
                             timepoint_index = timepoint_index,
                             acc_only = TRUE, categorical = categorical)
@@ -211,6 +211,33 @@ pca_automatic_clustering <- function(give_rankings = FALSE, timepoint_index = 1)
   if (give_rankings) {
     return(acc_scores) # return all the accuracy scores
   }
+  
+  cat(green("Accuracy Scores:\n"))
+  print(acc_scores)
+  
+  # return the plot of the best one
+  best_acc <- 0
+  best_name <- ""
+  for (i in 1:length(acc_scores)) {
+    datum_name <- names(acc_scores[i])
+    datum_acc <- acc_scores[[i]]
+    if (best_acc < datum_acc) {
+      best_name <- datum_name
+      best_acc <- datum_acc
+    }
+  }
+  
+  # categorical or quantitative column?
+  input <- readline(paste("Categorical or Quantitative [Final] -",
+                          colnames(lplex_normal)[lplex_metadata_columns][[i]],
+                          "(c/q):"))
+  if (input == "c") {categorical <- TRUE}
+  else if (input == "q") {categorical <- FALSE}
+  else {stop("Unknown Response")}
+  return(plot_pca_cluster(grouping = best_name,
+                          timepoint_index = timepoint_index,
+                          avg_acc = best_acc,
+                          categorical = categorical))
 }
 
 ## OUTPUT ---
@@ -239,5 +266,7 @@ if (save_plots) {
 }
 
 rm(save_plots)
+
+cat(blue("Run clustering using: pca_automatic_clustering()"))
 
 cat(cyan("Process complete\n"))
