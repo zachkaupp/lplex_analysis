@@ -43,13 +43,53 @@ plot_pca <- function(treatment, timepoint_index = 1) {
   return(plot)
 }
 
-plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1, acc_only = FALSE, avg_acc = NULL) {
+plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1, acc_only = FALSE, avg_acc = NULL, categorical = TRUE) {
   # https://stackoverflow.com/questions/35402850/how-to-plot-knn-clusters-boundaries-in-r
   
   # this does knn clustering
   timepoint <- levels(factor(lplex_normal_list_timepoints[[timepoint_index]][["TIMEPOINT"]]))
   df <- lplex_normal_list_timepoints[[timepoint_index]] %>% #filter out NA values
     filter(!(!!sym(grouping) %in% possible_na_values))
+  
+  # change quantitative variables to batches
+  if (!categorical) { # change it to numbers
+    parse_failed <- FALSE
+    tryCatch( # make sure it only changes it to a number if it can be changed
+      expr = {
+        x <- parse_number(df[[grouping]])
+      },
+      warning = function(w) {
+        parse_failed <- TRUE
+      },
+      finally = {
+        df[[grouping]] <- x
+      }
+    )
+    batches_num <- 5
+    sig_figs <- 4
+    grouping_range <- diff(range(df[[grouping]])) # get stats for batchmaking
+    grouping_step <- grouping_range / batches_num
+    batches <- c()
+    prev <- range(df[[grouping]])[[1]]
+    for (i in 1:batches_num) {
+      x <- range(df[[grouping]])[[1]] + (grouping_step * i)
+      batches <- c(batches, paste(signif(prev, sig_figs), "-", signif(x, sig_figs)))
+      prev <- x
+    }
+    # put the data in the batches
+    x <- df[[grouping]]
+    y <- c()
+    for (i in 1:length(df[[grouping]])) {
+      datum <- x[i]
+      if (datum == range(df[[grouping]])[[1]]) { # if it is the minimum, it will try to access index 0
+        y <- c(y, batches[1])
+      }
+      datum_batch <- ceiling((datum - range(df[[grouping]])[[1]]) / grouping_step)
+      y <- c(y, batches[datum_batch])
+    }
+    df[[grouping]] <- y # set the new column to be batches instead of numbers
+  }
+  
   idx <- sample(1:nrow(df), size = ceiling(nrow(df) * 2/3)) # split into train and test dataframes
   train.idx <- 1:nrow(df) %in% idx
   test.idx <- ! 1:nrow(df) %in% idx
@@ -107,8 +147,6 @@ plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1, acc_
     f1_scores[[i]] <- (2 * ((p * r)/(p + r)))
   }
   f1_scores[is.na(f1_scores)] <- 0
-  # print(f1_scores)
-  # print(actual_total)
   
   # summarize the scores into one single F1 score
   numerator <- 0
@@ -117,7 +155,6 @@ plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1, acc_
   }
   accuracy_score <- numerator / Reduce('+', actual_total)
   accuracy_score <- accuracy_score * length(classes) # this makes sure that clustering with less variables doesn't guarantee it a higher score
-  print(classes)
   
   # only return the accuracy, and set accuracy for the graph if an external function averaged it
   if (acc_only) {
@@ -151,15 +188,28 @@ pca_automatic_clustering <- function(give_rankings = FALSE, timepoint_index = 1)
   added <- 0
   for (i in 1:length(lplex_metadata_columns)) { # for each column of metadata
     acc <- 0
-    for (j in 1:10) { # find the accuracy score 5 times
+    
+    # categorical or quantitative column?
+    input <- readline(paste("Categorical or Quantitative -",
+                            colnames(lplex_normal)[lplex_metadata_columns][[i]],
+                            "(c/q):"))
+    if (input == "c") {categorical <- TRUE}
+    else if (input == "q") {categorical <- FALSE}
+    else {stop("Unknown Response")}
+    
+    for (j in 1:20) { # find the accuracy score 5 times
       acc <- acc + plot_pca_cluster(colnames(lplex_normal)[[lplex_metadata_columns[[i]]]],
                             timepoint_index = timepoint_index,
-                            acc_only = TRUE)
+                            acc_only = TRUE, categorical = categorical)
     }
-    acc_scores[[i]] <- (acc / 10) # and take the average
+    acc_scores[[i]] <- (acc / 20) # and take the average
     added <- added + 1
   }
-  return(acc_scores)
+  names(acc_scores) <- colnames(lplex_normal)[lplex_metadata_columns]
+  
+  if (give_rankings) {
+    return(acc_scores) # return all the accuracy scores
+  }
 }
 
 ## OUTPUT ---
