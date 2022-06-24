@@ -267,6 +267,6 @@ if (save_plots) {
 
 rm(save_plots)
 
-cat(blue("Run clustering using: pca_automatic_clustering()"))
+cat(blue("Run clustering using: pca_automatic_clustering(...) or plot_pca_cluster(...)\n"))
 
 cat(cyan("Process complete\n"))
