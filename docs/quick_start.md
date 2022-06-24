@@ -42,7 +42,7 @@ c(3, 4, 5, 6) # = columns 3, 4, 5, and 6
 
 ## Run the Scripts
 
-- Run the files in the `scripts` folder of this repository in the order they are numbered (Dont forget `00_settings.R`!
+- Run the files in the `scripts` folder of this repository in the order they are numbered with 'source' in the editor pane of RStudio (Dont forget `00_settings.R`!)
 
 ## Find the output
 
