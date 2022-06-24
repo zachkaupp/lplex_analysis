@@ -23,6 +23,8 @@ plot_violin <- function(cytokine, timepoint_index = 1) {
                            lplex_normal_list_timepoints[[timepoint_index]][[col_timepoint]])),
                        "]  [",
                        cytokine,
+                       "]  [n: ",
+                       nrow(lplex_normal_list_timepoints[[timepoint_index]]),
                        "]",
                        sep = "")) +
     xlab(col_treatment) +
