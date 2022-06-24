@@ -54,6 +54,7 @@ plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1, acc_
   # change quantitative variables to batches
   if (!categorical) { # change it to numbers
     parse_failed <- FALSE
+    x <- 0 # without this, it may return a weird error
     tryCatch( # make sure it only changes it to a number if it can be changed
       expr = {
         x <- parse_number(df[[grouping]])
@@ -197,13 +198,13 @@ pca_automatic_clustering <- function(give_rankings = FALSE, timepoint_index = 1)
     if (input == "c") {categorical <- TRUE}
     else if (input == "q") {categorical <- FALSE}
     else {stop("Unknown Response")}
-    
-    for (j in 1:20) { # find the accuracy score many times
+    iterations <- 40
+    for (j in 1:iterations) { # find the accuracy score many times
       acc <- acc + plot_pca_cluster(colnames(lplex_normal)[[lplex_metadata_columns[[i]]]],
                             timepoint_index = timepoint_index,
                             acc_only = TRUE, categorical = categorical)
     }
-    acc_scores[[i]] <- (acc / 20) # and take the average
+    acc_scores[[i]] <- (acc / iterations) # and take the average
     added <- added + 1
   }
   names(acc_scores) <- colnames(lplex_normal)[lplex_metadata_columns]
@@ -229,7 +230,7 @@ pca_automatic_clustering <- function(give_rankings = FALSE, timepoint_index = 1)
   
   # categorical or quantitative column?
   input <- readline(paste("Categorical or Quantitative [Final] -",
-                          colnames(lplex_normal)[lplex_metadata_columns][[i]],
+                          best_name, # TODO
                           "(c/q):"))
   if (input == "c") {categorical <- TRUE}
   else if (input == "q") {categorical <- FALSE}
