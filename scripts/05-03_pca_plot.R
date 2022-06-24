@@ -170,7 +170,8 @@ plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1, acc_
                    loadings = TRUE,
                    loadings.label = TRUE,
                    loadings.colour = "cornsilk3",
-                   loadings.label.size = 2.5) +
+                   loadings.label.size = 2.5,
+                   frame = TRUE) +
     theme_light() +
     labs(title = paste("[TIMEPOINT: ", timepoint, "] ",
                       "[ACCURACY: ", round(accuracy_score, 4), "]",
