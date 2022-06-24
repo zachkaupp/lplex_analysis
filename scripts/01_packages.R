@@ -16,5 +16,4 @@ library(ggradar)
 # ^ install with "devtools::install_github("ricardo-bion/ggradar",
 # dependencies = TRUE)", but install 'devtools' from CRAN beforehand
 
-
 cat(cyan("Process complete\n"))
