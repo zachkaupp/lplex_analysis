@@ -22,7 +22,7 @@ git clone https://github.com/zachkaupp/lplex_analysis.git
 -   heatmaps
 -   put table 1 stuff on hold (santiago)
 -   figure out why greek letters won't export in csv (don't try .xlsx again, that was a nightmare) (if you do make sure to branch, and don't commit to main) (fix ifn gamma)
-- outliers (3/4 * iqr?) (file.R for showing them in csv, how many, what sample, etc)
+- outliers (show them in csv, how many, what sample, etc)
 - note: 1 is healthy, 2 is tb
 - try new lplex set from santi
 - check normalization based on full dems set from santi
