@@ -26,3 +26,4 @@ git clone https://github.com/zachkaupp/lplex_analysis.git
 - note: 1 is healthy, 2 is tb
 - try new lplex set from santi
 - check normalization based on full dems set from santi
+- add clustering based on group either in metadata or in the main function. remember to specify that clustering is not separated by group if the guide isn't clear
