@@ -45,6 +45,7 @@ plot_pca <- function(treatment, timepoint_index = 1) {
 
 plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1, acc_only = FALSE, avg_acc = NULL, categorical = TRUE) {
   # https://stackoverflow.com/questions/35402850/how-to-plot-knn-clusters-boundaries-in-r
+  # PLOT NOT SEPARATED BASED ON TREATMENT!!! (try clustering by TREATMENT)
   
   timepoint <- levels(factor(lplex_normal_list_timepoints[[timepoint_index]][["TIMEPOINT"]]))
   df <- lplex_normal_list_timepoints[[timepoint_index]] %>% #filter out NA values

@@ -22,6 +22,6 @@ git clone https://github.com/zachkaupp/lplex_analysis.git
 -   heatmaps
 -   put table 1 stuff on hold (santiago)
 -   figure out why greek letters won't export in csv (don't try .xlsx again, that was a nightmare) (if you do make sure to branch, and don't commit to main) (fix ifn gamma)
+- try new lplex
 - note: 1 is healthy, 2 is tb
-- try new lplex set from santi
-- check normalization based on full dems set from santi
+- note: normalization checked by full dems set from santi
