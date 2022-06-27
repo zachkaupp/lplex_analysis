@@ -180,4 +180,6 @@ rm(lplex_list, lplex_list_expanded, lplex_list_filtered,
 
 rm(added, i, file_location, no_control, repeats, timepoints, na_rows) # values
 
+cat(yellow("From now on, column names are in all caps, and spaces are replaced with \"_\"\n"))
+
 cat(cyan("Process complete\n"))
