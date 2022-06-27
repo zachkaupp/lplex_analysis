@@ -36,3 +36,8 @@
 - Outliers calculated so that harshly skewed data can still be shown in an interpretable format
 - Outliers are still included in the graph, but at the edge, on the side they would have been off the side of
 - Data is shown regardless of GROUP, so now conclusions can be made from these plots, as they are only meant to give a snapshot of the variable distributions
+
+### Heatmap plot - 
+
+- Grouped by TIMEPOINT
+- File Name Format: TIMEPOINT
