@@ -49,3 +49,10 @@ c(3, 4, 5, 6) # = columns 3, 4, 5, and 6
 - Data is exported by the project into the `output` folder of this repository
 - `filtered_data` contains .csv files with cleaned data
 - `plot_x` folders contain the different plots, and their numbering scheme can be found in the guide
+
+## Error Handling
+#### If you encounter any errors, follow these steps:
+1. Make sure your `00_settings.R` file is set **and saved** correctly, and you selected the right file in `03_dataclean.R`
+2. Paste `rm(list = ls())` into your R console to remove all variables
+3. In the menu bar, click `Session > Restart R`
+4. Run all the files in order again, starting from the beginning
