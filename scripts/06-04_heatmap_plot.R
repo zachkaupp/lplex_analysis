@@ -4,7 +4,7 @@ save_plots <- TRUE
 
 plot_heatmap <- function(timepoint_index = 1) {
   df <- lplex_normal_list_timepoints[[timepoint_index]] %>%
-    select(!!sym(col_group), !!sym(col_treatment), lplex_data_columns) %>%
+    select(!!sym(col_group), !!sym(col_treatment), all_of(lplex_data_columns)) %>%
     pivot_longer(cols = -c(1,2), # make the data tidy
                  names_to = "ANALYTE",
                  values_to = "LOG2FC")
