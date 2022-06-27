@@ -1,10 +1,11 @@
 ## Find the data, clean it, and normalize it
 
-# STANDARDIZE COL_NAMES --- 
+# STANDARDIZE COL_NAMES AND VALUES--- 
 col_id <- sub(" ", "_", toupper(col_id))
 col_group <- sub(" ", "_", toupper(col_group))
 col_treatment <- sub(" ", "_", toupper(col_treatment))
 col_timepoint <- sub(" ", "_", toupper(col_timepoint))
+control <- sub(" ", "_", toupper(control))
 
 # FIND THE FILE LOCATION ---
 print("NOTE: ONLY CSV FILES ACCEPTED")
