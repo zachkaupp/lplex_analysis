@@ -41,8 +41,8 @@ singlevar_dotplot <- function(data_column, timepoint_index = 1, normalized = FAL
   # plot the data
   my_plot <- ggplot(plot_data,
                     aes(x = plot_data[[data_column]], fill = !!sym(col_group))) +
-    geom_dotplot(dotsize = .7,
-                 binwidth = ((1/15)*iqr),
+    geom_dotplot(dotsize = .75,
+                 binwidth = ((1/10)*iqr),
                  stackgroups = TRUE,
                  binpositions = "all",
                  colour = "white") +
