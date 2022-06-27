@@ -12,9 +12,10 @@ col_timepoint <- "TIMEPOINT"
 lplex_data_columns <- c(6:18) # cytokine measurements
 lplex_metadata_columns <- c() # demographic data for clustering
 
-# VALUE NAMES ---
+# VALUES ---
 
 control <- "NIL" # negative control for data normalization
+outlier_crit <- 4.5 # criteria for outliers - formula is (outlier_crit * iqr) +/- median
 
 # SPECIAL SETTINGS ---
 
