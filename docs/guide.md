@@ -25,8 +25,11 @@
 
 ### PCA plot clustering -
 
-- Function gives option to return only F1 accuracy score or plot the actual data, with the option to set the accuracy score from multiple precalculated, averaged scores
+- plot_pca_cluster() function gives option to return only accuracy score or plot the actual data
+- pca_automatic_clustering() finds the accuracy scores for all the metadata columns and the group column, and plots what it finds to be the most accuracte
+- PCA clustering is not separated based on group, except of course, when it clusters based on the group column
 - Accuracy Score is an F1 score, multiplied by the number of classes/clusters. That way a clustering with two classes won't average at around 50% as opposed to one with 3 averaging at 30%. Hopefully this way the scores are more comparable.
+- PCA clustering does not provide file output
 
 ### Singlevar dot plot -
 

@@ -46,7 +46,6 @@ plot_pca <- function(treatment, timepoint_index = 1) {
 plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1, acc_only = FALSE, avg_acc = NULL, categorical = TRUE) {
   # https://stackoverflow.com/questions/35402850/how-to-plot-knn-clusters-boundaries-in-r
   
-  # this does knn clustering
   timepoint <- levels(factor(lplex_normal_list_timepoints[[timepoint_index]][["TIMEPOINT"]]))
   df <- lplex_normal_list_timepoints[[timepoint_index]] %>% #filter out NA values
     filter(!(!!sym(grouping) %in% possible_na_values))
@@ -91,76 +90,83 @@ plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1, acc_
     df[[grouping]] <- y # set the new column to be batches instead of numbers
   }
   
-  idx <- sample(1:nrow(df), size = ceiling(nrow(df) * 2/3)) # split into train and test dataframes
-  train.idx <- 1:nrow(df) %in% idx
-  test.idx <- ! 1:nrow(df) %in% idx
-  train <- df[train.idx, lplex_data_columns]
-  test <- df[test.idx, lplex_data_columns]
-  labels <- df[train.idx, grouping]
-  fit <- knn(train, test, labels[[grouping]]) # fit the knn model
-  plot.df <- data.frame(test, predicted = fit) # format the data for comparison
-  plot.df.actual <- data.frame(test, df[test.idx, grouping])
-  full_data <- df[,lplex_data_columns]# format the data for PCA
-  full_data <- data.frame(full_data, df[, grouping])
-  plot.df.filtered <- full_data %>% 
-    select(-!!sym(grouping))
-  pca_res <- prcomp(plot.df.filtered, scale. = TRUE) # I don't know what scale does, but I think I need it
+  # find the accuracy score and average it
+  knn_iterations <- 40
+  acc_score <- 0
+  for (iter in 1:knn_iterations) {
+    # this does knn clustering
+    idx <- sample(1:nrow(df), size = ceiling(nrow(df) * 2/3)) # split into train and test dataframes
+    train.idx <- 1:nrow(df) %in% idx
+    test.idx <- ! 1:nrow(df) %in% idx
+    train <- df[train.idx, lplex_data_columns]
+    test <- df[test.idx, lplex_data_columns]
+    labels <- df[train.idx, grouping]
+    fit <- knn(train, test, labels[[grouping]]) # fit the knn model
+    plot.df <- data.frame(test, predicted = fit) # format the data for comparison
+    plot.df.actual <- data.frame(test, df[test.idx, grouping])
+    full_data <- df[,lplex_data_columns]# format the data for PCA
+    full_data <- data.frame(full_data, df[, grouping])
+    plot.df.filtered <- full_data %>% 
+      select(-!!sym(grouping))
+    pca_res <- prcomp(plot.df.filtered, scale. = TRUE) # I don't know what scale does, but I think I need it
+    
+    # this calculates the accuracy of the clustering using F1
+    # https://towardsdatascience.com/multi-class-metrics-made-simple-part-ii-the-f1-score-ebe8b2c2ca1
+    predicted <- plot.df[["predicted"]]
+    actual <- plot.df.actual[[grouping]]
+    f1_scores <- data.frame(matrix(ncol = 4, nrow = 0))
+    colnames(f1_scores) <- c("class", "precision", "recall", "f1")
+    classes <- levels(factor(labels[[1]]))
+    predicted_total <- list()
+    actual_total <- list()
+    for (i in 1:length(classes)) { # get the total number for each class predicted and actual
+      if (classes[[i]] %in% names(table(predicted))) {
+        predicted_total[[i]] <- table(predicted)[[classes[[i]]]]
+      } else {
+        predicted_total[[i]] <- 0
+      }
+      if (classes[[i]] %in% names(table(actual))) {
+        actual_total[[i]] <- table(actual)[[classes[[i]]]]
+      } else {
+        actual_total[[i]] <- 0
+      }
+    }
+    correct <- as.list(rep(0, length(classes)))
+    for (i in 1:length(actual)) {
+      if (actual[[i]] == predicted[[i]]) {
+        correct[[match(actual[[i]], classes)]] <- correct[[match(actual[[i]], classes)]] + 1
+      }
+    }
+    precision <- list() # calculate precision and accuracy per class
+    recall <- list()
+    for (i in 1:length(correct)) {
+      precision[[i]] <- correct[[i]]/predicted_total[[i]]
+      recall[[i]] <- correct[[i]]/actual_total[[i]]
+    }
+    precision[is.na(precision)] <- 0
+    recall[is.na(recall)] <- 0
+    f1_scores <- list() # get f1 scores per class
+    for (i in 1:length(precision)) {
+      p <- precision[[i]]
+      r <- recall[[i]]
+      f1_scores[[i]] <- (2 * ((p * r)/(p + r)))
+    }
+    f1_scores[is.na(f1_scores)] <- 0
+    
+    # summarize the scores into one single F1 score
+    numerator <- 0
+    for (i in 1:length(f1_scores)) {
+      numerator <- numerator + (f1_scores[[i]] * actual_total[[i]])
+    }
+    accuracy_score <- numerator / Reduce('+', actual_total)
+    accuracy_score <- accuracy_score * length(classes) # this makes sure that clustering with less variables doesn't guarantee it a higher score
+    acc_score <- acc_score + accuracy_score
+  }
+  accuracy_score <- (acc_score / knn_iterations)
 
-  # this calculates the accuracy of the clustering using F1
-  # https://towardsdatascience.com/multi-class-metrics-made-simple-part-ii-the-f1-score-ebe8b2c2ca1
-  predicted <- plot.df[["predicted"]]
-  actual <- plot.df.actual[[grouping]]
-  f1_scores <- data.frame(matrix(ncol = 4, nrow = 0))
-  colnames(f1_scores) <- c("class", "precision", "recall", "f1")
-  classes <- levels(factor(labels[[1]]))
-  predicted_total <- list()
-  actual_total <- list()
-  for (i in 1:length(classes)) { # get the total number for each class predicted and actual
-    if (classes[[i]] %in% names(table(predicted))) {
-      predicted_total[[i]] <- table(predicted)[[classes[[i]]]]
-    } else {
-      predicted_total[[i]] <- 0
-    }
-    if (classes[[i]] %in% names(table(actual))) {
-      actual_total[[i]] <- table(actual)[[classes[[i]]]]
-    } else {
-      actual_total[[i]] <- 0
-    }
-  }
-  correct <- as.list(rep(0, length(classes)))
-  for (i in 1:length(actual)) {
-    if (actual[[i]] == predicted[[i]]) {
-      correct[[match(actual[[i]], classes)]] <- correct[[match(actual[[i]], classes)]] + 1
-    }
-  }
-  precision <- list() # calculate precision and accuracy per class
-  recall <- list()
-  for (i in 1:length(correct)) {
-    precision[[i]] <- correct[[i]]/predicted_total[[i]]
-    recall[[i]] <- correct[[i]]/actual_total[[i]]
-  }
-  precision[is.na(precision)] <- 0
-  recall[is.na(recall)] <- 0
-  f1_scores <- list() # get f1 scores per class
-  for (i in 1:length(precision)) {
-    p <- precision[[i]]
-    r <- recall[[i]]
-    f1_scores[[i]] <- (2 * ((p * r)/(p + r)))
-  }
-  f1_scores[is.na(f1_scores)] <- 0
-  
-  # summarize the scores into one single F1 score
-  numerator <- 0
-  for (i in 1:length(f1_scores)) {
-    numerator <- numerator + (f1_scores[[i]] * actual_total[[i]])
-  }
-  accuracy_score <- numerator / Reduce('+', actual_total)
-  accuracy_score <- accuracy_score * length(classes) # this makes sure that clustering with less variables doesn't guarantee it a higher score
-  
-  # only return the accuracy, and set accuracy for the graph if an external function averaged it
-  if (acc_only) {
+  if (acc_only) {  # only return the accuracy
     return(accuracy_score)
-  } else if (!is.null(avg_acc)) {
+  } else if (!is.null(avg_acc)) { # set accuracy for graph manually (e.g. pca_automatic_clustering() so the accuracy on the graph is consistent with the rankings it provides)
     accuracy_score <- avg_acc
   }
   
@@ -186,30 +192,27 @@ pca_automatic_clustering <- function(give_rankings = FALSE, timepoint_index = 1)
   if (length(lplex_metadata_columns) == 0) { # make sure the metadata is specified
     stop("lplex_metadata_columns is empty")
   }
+  clustering_cols <- c(lplex_metadata_columns, grep(col_group, colnames(lplex_normal)))
+  
   acc_scores <- list()
   added <- 0
   all_categorical <- list() # keep track of which variables are categorical
-  for (i in 1:length(lplex_metadata_columns)) { # for each column of metadata
-    acc <- 0
-    
+  for (i in 1:length(clustering_cols)) { # for each column of metadata
     # categorical or quantitative column?
     input <- readline(paste("Categorical or Quantitative -",
-                            colnames(lplex_normal)[lplex_metadata_columns][[i]],
+                            colnames(lplex_normal)[clustering_cols][[i]],
                             "(c/q):"))
     if (input == "c") {categorical <- TRUE}
     else if (input == "q") {categorical <- FALSE}
     else {stop("Unknown Response")}
-    iterations <- 40
-    for (j in 1:iterations) { # find the accuracy score many times
-      acc <- acc + plot_pca_cluster(colnames(lplex_normal)[[lplex_metadata_columns[[i]]]],
-                            timepoint_index = timepoint_index,
-                            acc_only = TRUE, categorical = categorical)
-    }
-    acc_scores[[i]] <- (acc / iterations) # and take the average
+    acc <- plot_pca_cluster(colnames(lplex_normal)[[clustering_cols[[i]]]],
+                                  timepoint_index = timepoint_index,
+                                  acc_only = TRUE, categorical = categorical)
+    acc_scores[[i]] <- acc # record the scores in a list
     added <- added + 1
-    all_categorical[[i]] <- categorical
+    all_categorical[[i]] <- categorical # record whether the variables are quantitative or categorical so it doesn't have to ask twice
   }
-  names(acc_scores) <- colnames(lplex_normal)[lplex_metadata_columns]
+  names(acc_scores) <- colnames(lplex_normal)[clustering_cols]
   
   if (give_rankings) {
     return(acc_scores) # return all the accuracy scores
