@@ -28,6 +28,12 @@ plot_pca <- function(treatment, timepoint_index = 1) {
   df <- select(df, -all_of(removed_columns))
   df_filtered <- select(df_filtered, -all_of(removed_columns))
   
+  for (i in df_filtered) { # make sure there is enough variance for scale. = TRUE to work
+    if (var(i) == 0) {
+      stop("PCA plots are unavailable for dataframes that have 1 or more columns with 0 variance")
+    }
+  }
+    
   pca_res <- prcomp(df_filtered, scale. = TRUE) # I don't know what scale does, but I think I need it
   plot <- autoplot(pca_res,
                    data = df,
