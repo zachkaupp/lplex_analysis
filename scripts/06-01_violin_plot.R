@@ -47,13 +47,15 @@ if (save_plots) {
         # warnings are suppressed because it often warns that it is excluding data
         # when there aren't enough data points, and that isn't a big deal
         cat(green("Saving image\n"))
-        suppressWarnings(ggsave(paste("output/violin_plot/", i, "_",
-                                      j, # cytokine index
-                                      ".", export_format, sep = ""),
-                                plot_violin(colnames(lplex_normal[j]),i),
-                                device = export_format,
-                                width = 10,
-                                height = 7))
+        suppressMessages(
+          suppressWarnings(ggsave(paste("output/violin_plot/", i, "_",
+                                        j, # cytokine index
+                                        ".", export_format, sep = ""),
+                                  plot_violin(colnames(lplex_normal[j]),i),
+                                  device = export_format,
+                                  width = 10,
+                                  height = 7))
+        )
       }
     }
   })
