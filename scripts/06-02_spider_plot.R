@@ -2,7 +2,7 @@
 
 save_plots <- TRUE
 
-plot_spider <- function(treatment, timepoint_index = 1) {
+plot_spider <- function(treatment, custom_range = NULL, timepoint_index = 1) {
 
   # create starting variables
   start_plot <- lplex_normal_list_timepoints[[timepoint_index]]
@@ -34,14 +34,19 @@ plot_spider <- function(treatment, timepoint_index = 1) {
   }
   median_plot <- bind_rows(median_plot_list) # put it back into a final dataframe with the medians
   
-  # find the max and min of the dataframe
-  log2fc_max <- max(select(median_plot, -!!sym(col_group)))
-  log2fc_min <- min(select(median_plot, -!!sym(col_group)))
+  # find the max and min of the dataframe, set custom values if applicable
+  if (is.null(custom_range)) {
+    log2fc_max <- max(select(median_plot, -!!sym(col_group)))
+    log2fc_min <- min(select(median_plot, -!!sym(col_group)))
+  } else {
+    log2fc_max <- custom_range[2]
+    log2fc_min <- custom_range[1]
+  }
   log2fc_med <- median(c(log2fc_max, log2fc_min))
   
   # rescale the dataframe, put it into ggradar, make it pretty, and add info
   spider_plot <- median_plot %>%
-    mutate_at(vars(-!!sym(col_group)), ~rescale(., from = range(select(median_plot, -!!sym(col_group))))) %>%
+    mutate_at(vars(-!!sym(col_group)), ~rescale(., from = c(log2fc_min, log2fc_max))) %>%
     ggradar (
       group.point.size = 2,
       group.line.width = .5,
@@ -81,7 +86,7 @@ if (save_plots) {
       for (j in 1:length(lplex_treatments)) {
         cat(green("Saving image\n"))
         ggsave(paste("output/spider_plot/", i, "_", j,".", export_format, sep = ""),
-               plot_spider(lplex_treatments[[j]], i),
+               plot_spider(lplex_treatments[[j]], timepoint_index = i),
                device = export_format,
                width = 11,
                height = 7

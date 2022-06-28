@@ -15,6 +15,7 @@
 -   Grouped by timepoint and treatment
 -   Dot location determined by median
 -   Scale is based on log-2-fold-change
+-   Custom range argument allows graph to plot in a set range, allowing for consistency across graphs
 -   File Name Format: TIMEPOINT_TREATMENT
 
 ### PCA plot -
