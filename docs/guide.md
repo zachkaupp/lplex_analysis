@@ -39,5 +39,6 @@
 
 ### Heatmap plot - 
 
-- Grouped by TIMEPOINT, faceted by GROUP
+- Grouped by TIMEPOINT, split by GROUP
 - File Name Format: TIMEPOINT
+- Scaled by column

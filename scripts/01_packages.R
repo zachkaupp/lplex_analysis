@@ -13,7 +13,6 @@ suppressPackageStartupMessages(library(readr))
 
 # GITHUB packages
 library(ggradar)
-# ^ install with "devtools::install_github("ricardo-bion/ggradar",
-# dependencies = TRUE)", but install 'devtools' from CRAN beforehand
+suppressPackageStartupMessages(library(ComplexHeatmap))
 
 cat(cyan("Process complete\n"))

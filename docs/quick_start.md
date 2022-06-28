@@ -27,6 +27,7 @@ library(devtools)
 
 # Run this third
 devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
+devtools::install_github("jokergoo/ComplexHeatmap")
 ```
 
 ## Set the Settings
