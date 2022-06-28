@@ -58,7 +58,7 @@ plot_spider <- function(treatment, timepoint_index = 1) {
                          sep = ""),
       legend.title = col_group,
       values.radar = c(paste("[", round(log2fc_min, 2), "]", sep = ""),
-                       paste("[", round(log2fc_med, 2), "]", sep = ""),
+                       paste("log2fc - [", round(log2fc_med, 2), "]", sep = ""),
                        paste("[", round(log2fc_max, 2), "]", sep = "")),
       gridline.min.colour = "lightpink1",
       gridline.mid.colour = "khaki",
