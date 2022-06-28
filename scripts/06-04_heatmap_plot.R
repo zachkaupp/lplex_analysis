@@ -16,11 +16,11 @@ plot_heatmap <- function(timepoint_index = 1) {
   x_groups <- x_sum[1]
   x_data <- as.matrix(x_sum[,-c(1,ncol(x_sum))])
   rownames(x_data) <- x_sum[[ncol(x_sum)]]
-  x_data <- scale(x_data)
+  x_data <- t(scale(x_data))
   heatmap_plot <- suppressWarnings(
     Heatmap(
       x_data,
-      split = x_groups,
+      column_split = x_groups,
       name = paste("TIMEPOINT:",
                    levels(factor(lplex_normal_list_timepoints[[timepoint_index]][[col_timepoint]])))
     )
