@@ -3,6 +3,7 @@
 save_plots <- TRUE
 
 plot_violin <- function(cytokine, timepoint_index = 1) {
+  n <- nrow(lplex_normal_list_timepoints[[timepoint_index]])
   
   # make the plot, most of this is for appearance
   x <- ggplot(lplex_normal_list_timepoints[[timepoint_index]],
@@ -15,7 +16,10 @@ plot_violin <- function(cytokine, timepoint_index = 1) {
                  dotsize = .3, alpha = .8,
                  binwidth = (diff(range(lplex_normal_list_timepoints[[timepoint_index]][[cytokine]]))/20), # this makes sure the the dots stay around the same size for every cytokine, it is a problem otherwise
                  color = "black",
-                 fill = "white") + 
+                 fill = "white") +
+    geom_line(aes(group = !!sym(col_id)),
+              alpha = ((1.005 ^ (-1 * (n+50))) - (.9 * (1.1 ^ (-1 * (n+50))))),
+              colour = "darkturquoise") +
     facet_wrap(vars(!!sym(col_group))) +
     labs(title = paste("[TIMEPOINT: ",
                        levels(
@@ -24,7 +28,7 @@ plot_violin <- function(cytokine, timepoint_index = 1) {
                        "]  [",
                        cytokine,
                        "]  [n: ",
-                       nrow(lplex_normal_list_timepoints[[timepoint_index]]),
+                       n,
                        "]",
                        sep = "")) +
     xlab(col_treatment) +
