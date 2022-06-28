@@ -32,18 +32,23 @@ devtools::install_github("jokergoo/ComplexHeatmap")
 
 ## Set the Settings
 
-- In the file pane of RStudio, open `scripts`, and then open `00_settings.R
-- Set the required column names to the way the columns are named in your data
-- Set `lplex_data_columns` to the indexes for your data/cytokine columns
+- In the file pane of RStudio, open `scripts`, and then open `00_settings.R`
+
+#### COLUMN NAMES
+- Set the required column names to the names of the columns in your data
+
+#### COLUMN INDEXES
+- Set `lplex_data_columns` to the indexes/column numbers (in vector form) for your analyte columns
 ```R
-# This can be done a couple of ways:
-c(3:6) # = columns 3, 4, 5, and 6
-c(3, 4, 5, 6) # = columns 3, 4, 5, and 6
+e.g.
+lplex_data_columns <- c(3:6) # = columns 3, 4, 5, and 6
+lplex_data_columns <- c(3, 4, 5, 6) # = columns 3, 4, 5, and 6
 ```
+- Do the same thing for `lplex_metadata_columns` for metadata columns (optional)
 
 ## Run the Scripts
 
-- Run the files in the `scripts` folder of this repository in the order they are numbered with 'source' in the editor pane of RStudio (Dont forget `00_settings.R`!)
+- Run the files in the `scripts` folder of this repository in the order they are numbered with <img src="/assets/img/source.png" alt="source" style="height: 24px; width:88px;"/> in the editor pane of RStudio (Dont forget `00_settings.R`!)
 
 ## Find the output
 
