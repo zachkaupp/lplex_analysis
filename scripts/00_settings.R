@@ -14,7 +14,7 @@ lplex_metadata_columns <- c() # demographic data for clustering
 
 # VALUES (required) ---
 
-sig_groups <- c("A", "B") # 2 groups to compare in significance tests
+sig_groups <- c() # 2 groups to compare in significance tests, e.g. c("A", "B")
 control <- "NIL" # negative control for data normalization
 
 # SPECIAL SETTINGS (optional) ---

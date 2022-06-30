@@ -2,6 +2,11 @@
 
 # perform a wilcox test between the two groups
 test_wilcox <- function(treatment = "NIL", timepoint_index = 1) {
+  
+  if (length(sig_groups) != 2) {
+    stop("sig_groups must have 2 values to use the wilcox test")
+  }
+  
   test_list <- list()
   added <- 0
   df <- lplex %>%
