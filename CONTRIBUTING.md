@@ -1,5 +1,8 @@
 # i'm glad you're willing to contribute!
 
+### to contribute:
+- fork the repository, or request to be a contributor in discussions (explain who you are, and what you plan to do)
+
 ### to add new features:
 - create another script file, numbered by when you think it should be run in the order of the scripts
 
