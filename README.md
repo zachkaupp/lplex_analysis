@@ -23,8 +23,17 @@ git clone https://github.com/zachkaupp/lplex_analysis.git
 - Ouput outliers, Wilcoxon p-values, and Shapiro-Wilk p-values
 
 #### Data Visualization
-- Dot plots
-- Violin plots:
-- Spider plots:
-- PCA Plots:
-- Heatmaps:
+Dot plots:
+
+<img src="/assets/img/example_dot.png" alt="dot plot" style="height: 350px; width:500px;"/>
+Violin plots:
+
+<img src="/assets/img/example_violin.png" alt="violin plot" style="height: 350px; width:500px;"/>
+Spider plots:
+
+<img src="/assets/img/example_spider.png" alt="spider plot" style="height: 350px; width:550px;"/>
+PCA Plots:
+
+
+Heatmaps:
+
