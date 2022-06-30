@@ -1,7 +1,5 @@
 ## Record p-values for each analyte between groups
 
-sig_groups <- c("A", "B") # 2 groups to compare in significance tests
-
 # perform a wilcox test between the two groups
 test_wilcox <- function(treatment = "NIL", timepoint_index = 1) {
   test_list <- list()
