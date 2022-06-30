@@ -5,7 +5,7 @@ save_plots <- TRUE
 plot_heatmap <- function(timepoint_index = 1) {
   df <- lplex_normal_list_timepoints[[timepoint_index]] # get the dataframe
   x <- df %>% # order the dataframe and select the necessary columns
-    select(c(which(colnames(df) == col_treatment), which(colnames(df) == col_group), lplex_data_columns))
+    select(c(which(colnames(df) == col_treatment), which(colnames(df) == col_group), all_of(lplex_data_columns)))
 
   for (i in x[3:ncol(x)]) { # make sure there is enough variance
     if (var(i) == 0) {

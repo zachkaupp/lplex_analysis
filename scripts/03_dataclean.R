@@ -168,6 +168,7 @@ for (i in timepoints) {
 
 ## OUTPUT ---
 
+do.call(file.remove, list(list.files("output/filtered_data/", full.names = TRUE))) # removes old files
 write_csv(lplex_no_control, "output/filtered_data/no_control.csv")
 write_csv(lplex_repeats, "output/filtered_data/repeats.csv")
 write_csv(lplex_normal, "output/filtered_data/normalized.csv")
