@@ -34,6 +34,7 @@ Spider plots:
 <img src="/assets/img/example_spider.png" alt="spider plot" style="height: 350px; width:550px;"/>
 PCA Plots:
 
-
+<img src="/assets/img/example_pca.png" alt="pca plot" style="height: 350px; width:600px;"/>
 Heatmaps:
 
+<img src="/assets/img/example_heatmap.png" alt="heatmap" style="height: 350px; width:550px;"/>
