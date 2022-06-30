@@ -18,35 +18,53 @@ test_wilcox <- function(treatment = "NIL", timepoint_index = 1) {
     x <- group1[[i]]
     y <- group2[[i]]
     
-    warn <- NULL
-    tryCatch(
-      expr = {
-        p <- wilcox.test(x,y)$p.value # get the p-value and check for ties warning
-      },
-      warning = function(w) {
-        warn <- as.character(w)
-        if (warn == "simpleWarning in wilcox.test.default(x, y): cannot compute exact p-value with ties\n") {
-          cat(yellow(paste("Warning: p-value inexact because of ties for", colnames(lplex)[[i]], "\n")))
-        }
-      },
-      finally = {
-        suppressWarnings(
-          p <- wilcox.test(x,y)$p.value # in case the warning prevented it from running
-        )
-      }
-    )
+    warn <- "none"
+    warn_or_error_check <- tryCatch(wilcox.test(x,y)$p.value, error=function(e) e,warning=function(w) w)
+    if (is(warn_or_error_check, "error")) {
+      cat(red(paste("Excluded TIMEPOINT: ", levels(factor(lplex_normal_list_timepoints[[timepoint_index]][[col_timepoint]])),
+                    ", TREATMENT: ", treatment,
+                    ", ANALYTE: ", colnames(lplex)[[i]],
+                    " -- ", warn_or_error_check,
+                    sep = "")))
+      p <- 1 # p value can't be calculated
+    } else if (is(warn_or_error_check, "warning")) {
+      suppressWarnings(
+        p <- wilcox.test(x,y)$p.value
+      )
+      warn <- as.character(warn_or_error_check)
+    } else {
+      p <- wilcox.test(x,y)$p.value
+    }
     
-    test_row <- data.frame(
+    test_row <- data.frame( # save the data to a dataframe with a single row
       "TIMEPOINT" = levels(factor(lplex_normal_list_timepoints[[timepoint_index]][[col_timepoint]])),
       "TREATMENT" = treatment,
       "ANALYTE" = colnames(lplex)[[i]],
-      "p" = p
+      "p" = p,
+      "WARNING" = warn
     )
-    test_list[[added + 1]] <- test_row
+    test_list[[added + 1]] <- test_row # add row to list of rows
     added <- added + 1
   }
-  #View(bind_rows(test_list))
-  print(paste("Groups Used: ", sig_groups[[1]], ", ", sig_groups[[2]], sep = ""))
+  
+  return(bind_rows(test_list)) # return full dataframe of p-values at this timepoint x treatment combination
 }
+
+## OUTPUT ---
+
+x <- list()
+added <- 0
+for (i in 1:length(lplex_normal_list_timepoints)) {
+  for (j in lplex_treatments) {
+    x[[added + 1]] <- test_wilcox(treatment = j, timepoint_index = i)
+    added <- added + 1
+  }
+}
+final_df <- bind_rows(x)
+write_csv(final_df, "output/filtered_data/wilcox_test.csv")
+
+rm(x, added, i, j)
+
+print(paste("Groups Used: ", sig_groups[[1]], ", ", sig_groups[[2]], sep = ""))
 
 cat(cyan("Process complete\n"))
