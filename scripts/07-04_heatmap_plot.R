@@ -27,8 +27,10 @@ plot_heatmap <- function(timepoint_index = 1) {
     Heatmap(
       x_data,
       column_split = x_groups,
-      name = paste("TIMEPOINT:",
-                   levels(factor(lplex_normal_list_timepoints[[timepoint_index]][[col_timepoint]])))
+      name = "log2fc\n(Scaled by Row)",
+      column_title = paste("[TIMEPOINT: ",
+                           levels(factor(lplex_normal_list_timepoints[[timepoint_index]][[col_timepoint]])),
+                           "]", sep = "")
     )
   )
   return(heatmap_plot)
