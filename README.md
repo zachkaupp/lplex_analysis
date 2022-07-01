@@ -29,10 +29,20 @@ git clone https://github.com/zachkaupp/lplex_analysis.git
 
 **Dot Plots**
 
+![](.gitbook/assets/example\_dot.png)
+
 **Violin plots**
+
+![](.gitbook/assets/example\_violin.png)
 
 **Spider plots**
 
+![](.gitbook/assets/example\_spider.png)
+
 **PCA Plots**
 
+![](.gitbook/assets/example\_pca.png)
+
 **Heatmaps**
+
+![](.gitbook/assets/example\_heatmap.png)
