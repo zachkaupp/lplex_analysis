@@ -56,6 +56,8 @@ plot_pca_cluster <- function(grouping = col_treatment, timepoint_index = 1, acc_
   timepoint <- levels(factor(lplex_normal_list_timepoints[[timepoint_index]][["TIMEPOINT"]]))
   df <- lplex_normal_list_timepoints[[timepoint_index]] %>% #filter out NA values
     filter(!(!!sym(grouping) %in% possible_na_values))
+  df <- df %>% # filter out more NA values
+    drop_na(!!sym(grouping))
   
   # change quantitative variables to batches
   if (!categorical) { # change it to numbers
