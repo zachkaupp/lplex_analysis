@@ -2,3 +2,4 @@
 
 * [lplex\_analysis](README.md)
 * [Quick Start](docs/quick-start.md)
+* [Guide](docs/guide.md)
