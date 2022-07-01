@@ -1,8 +1,6 @@
----
-description: LegendPlex analysis pipeline
----
-
 # lplex\_analysis
+
+#### LengendPlex analysis pipeline
 
 ### Getting Started
 
