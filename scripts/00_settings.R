@@ -9,12 +9,12 @@ col_timepoint <- "TIMEPOINT"
 
 # COLUMN INDEXES (required) ---
 
-lplex_data_columns <- c(6:18) # cytokine measurements
+lplex_data_columns <- c(6:18) # cytokine measurements e.g. c(46, 47, 49, 54)
 lplex_metadata_columns <- c() # demographic data for clustering
 
 # VALUES (required) ---
 
-sig_groups <- c() # 2 groups to compare in significance tests, e.g. c("A", "B")
+sig_groups <- c("A", "B") # 2 groups to compare in significance tests, e.g. c("A", "B")
 control <- "NIL" # negative control for data normalization
 
 # SPECIAL SETTINGS (optional) ---
