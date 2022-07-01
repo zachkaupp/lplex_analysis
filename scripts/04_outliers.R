@@ -34,6 +34,6 @@ write_csv(outliers_df, "output/filtered_data/outliers.csv")
 
 ## REMOVE UNNECESSARY VARIABLES ---
 
-rm(df_row, outlier_row, outliers, added, i, iqr, j, med, x)
+suppressWarnings(rm(df_row, outlier_row, outliers, added, i, iqr, j, med, x))
 
 cat(cyan("Process complete\n"))
