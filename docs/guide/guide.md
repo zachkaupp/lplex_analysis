@@ -1,7 +1,5 @@
 # Guide
 
-#### The guide is meant to show the specific workings of each file
-
 ## Plot summaries: (put this into subdocs)
 
 ### Violin plot -
