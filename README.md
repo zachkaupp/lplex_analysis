@@ -12,7 +12,7 @@
 git clone https://github.com/zachkaupp/lplex_analysis.git
 ```
 
-* Access [documentation](https://zachkaupp-github.gitbook.io/lplex_analysis/)
+* Access [documentation](https://zachkaupp-github.gitbook.io/lplex_analysis/) (use the quick start to get things working, and refer to the guide for more in depth information)
 * Alternatively, you can view video tutorials [here](https://youtube.com/playlist?list=PLWbNTbtRBJDA1B32GWftrhAApmZ7ur8Pt) (it is recommended to follow along in the documentation as you watch the videos)
 
 ### What It Does
