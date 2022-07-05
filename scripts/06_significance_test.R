@@ -1,7 +1,7 @@
 ## Record p-values for each analyte between groups
 
 # perform a wilcox test between the two groups
-test_wilcox <- function(treatment = "NIL", timepoint_index = 1) {
+test_wilcox <- function(treatment = "LPS", timepoint_index = 1) {
   
   if (length(sig_groups) != 2) {
     stop("sig_groups must have 2 values to use the wilcox test")
@@ -9,7 +9,7 @@ test_wilcox <- function(treatment = "NIL", timepoint_index = 1) {
   
   test_list <- list()
   added <- 0
-  df <- lplex %>%
+  df <- lplex_normal %>%
     filter(!!sym(col_timepoint) == levels(factor(lplex_normal_list_timepoints[[timepoint_index]][[col_timepoint]]))) %>%
     filter(!!sym(col_treatment) == treatment)
   group1 <- df %>%
