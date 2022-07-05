@@ -17,6 +17,10 @@ singlevar_dotplot <- function(data_column, timepoint_index = 1, normalized = FAL
 }
 ```
 
+#### Outlier Handling
+
+`singlevar_dotplot` plots every point, and it does not exclude the outliers that it counts at the top of the graph. Instead, the outliers are pushed to the edge of the graph, as far over as they can be plotted on their respective side.
+
 Example `singlevar_dotplot`:
 
 ![](../../.gitbook/assets/example\_dot.png)
