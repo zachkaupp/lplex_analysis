@@ -13,10 +13,6 @@ The scripts usually produce functions that can be called to plot in RStudio, but
 save_plots <- TRUE
 ```
 
-#### Plot Naming
-
-Plot output files are named according to the `timepoint_index`, `_`, then whatever other information defines the graph, such as the analyte column number, or treatment index
-
 ## Plot summaries: (put this into subdocs)
 
 ### Violin plot -
@@ -48,6 +44,12 @@ Plot output files are named according to the `timepoint_index`, `_`, then whatev
 * PCA clustering is not separated based on group, except of course, when it clusters based on the group column
 * Accuracy Score is an F1 score, multiplied by the number of classes/clusters. That way a clustering with two classes won't average at around 50% as opposed to one with 3 averaging at 30%. Hopefully this way the scores are more comparable.
 * PCA clustering does not provide file output
+
+### Singlevar dot plot -
+
+* Outliers calculated so that harshly skewed data can still be shown in an interpretable format
+* Outliers are still included in the graph, but at the edge, on the side they would have been off the side of
+* Data is shown regardless of GROUP, so now conclusions can be made from these plots, as they are only meant to give a snapshot of the variable distributions
 
 ### Heatmap plot -
 
