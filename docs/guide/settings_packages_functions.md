@@ -68,7 +68,8 @@ excluded_groups <- c() # rows with a value contained here
 # in their col_group will be excluded
 export_format <- "png" # support for alternate export
 # formats is not guaranteed, but the export format of the
-# plots can be changed here
+# plots can be changed here. make sure to choose a format
+# supported by ggsave.
 possible_na_values <- c() # these contain any recognized
 # ways that missing data will be marked. if missing data
 # is not excluded correctly, the way it was saved can be
