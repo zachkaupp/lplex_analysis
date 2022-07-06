@@ -62,7 +62,7 @@ test_shapiro <- function(treatment = "LPS", timepoint_index = 1) {
   
   test_list <- list()
   added <- 0
-  df <- lplex_normal %>%
+  df <- lplex %>%
     filter(!!sym(col_timepoint) == levels(factor(lplex_normal_list_timepoints[[timepoint_index]][[col_timepoint]]))) %>%
     filter(!!sym(col_treatment) == treatment)
   test_groups <- list()

@@ -23,7 +23,7 @@ test_shapiro <- function(treatment = "LPS", timepoint_index = 1) {
     # this function returns a dataframe containing p-values
     # for a shapiro-wilk normality test for each group
     # for the specified treatment and timepoint_index
-    # - this function runs the test on the normalized data
+    # - this function runs the test on the pre-normalized data
     
     # ARGUMENTS:
     # treatments = str, the treatment (in the treatments
