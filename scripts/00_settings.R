@@ -15,6 +15,7 @@ lplex_metadata_columns <- c() # demographic data for clustering
 # VALUES (required) ---
 
 sig_groups <- c("A", "B") # 2 groups to compare in significance tests, e.g. c("A", "B")
+limit_detection <- c(rep(0, length(lplex_data_columns))) # limit of detection for each data column, must match the length of lplex_data_columns
 control <- "NIL" # negative control for data normalization
 
 # SPECIAL SETTINGS (optional) ---

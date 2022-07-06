@@ -54,6 +54,9 @@ Values:
 sig_groups <- c() # set this to the names of the two groups
 # (in the col_group column) you would like to have the
 # Wilcoxon and Shapiro-Wilk statistical tests run with
+limit_detection <- c(rep(0, length(lplex_data_columns))) # set
+# this to the limit of detection for each data column. it must
+# be matching in length with lplex_data_columns. the current setting sets the limit of detection at 0 for every column.
 control <- "" # set this to the treatment in col_treatment
 # that should be considered the negative control for data
 # normalization

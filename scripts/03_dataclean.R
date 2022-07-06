@@ -91,7 +91,22 @@ if (do_normalize) {
   lplex_treatments <- lplex_treatments[!lplex_treatments %in% control] # take out the control treatment
 }
 
-# SEPARATE AND PRUNE THE DATAFRAME ---
+## APPLY LIMIT OF DETECTION ---
+
+for (i in 1:length(lplex_data_columns)) {
+  x <- lplex[[lplex_data_columns[[i]]]]
+  for (j in 1:length(x)) {
+    if (x[[j]] < limit_detection[[i]]) {
+      x[[j]] <- limit_detection[[i]]
+    }
+  }
+  lplex[[lplex_data_columns[[i]]]] <- x
+}
+# go through each data_column, save it to a vector,
+# for each value in the vector, check if it is above and set it
+# if it isn't, save the vector back to lplex
+
+## SEPARATE AND PRUNE THE DATAFRAME ---
 
 # separate by ID
 lplex_list <- split(lplex, f = lplex[[col_id]])
