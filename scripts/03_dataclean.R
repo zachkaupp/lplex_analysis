@@ -93,18 +93,17 @@ if (do_normalize) {
 
 ## APPLY LIMIT OF DETECTION ---
 
+below_limit <- 0
 for (i in 1:length(lplex_data_columns)) {
   x <- lplex[[lplex_data_columns[[i]]]]
   for (j in 1:length(x)) {
     if (x[[j]] < limit_detection[[i]]) {
       x[[j]] <- limit_detection[[i]]
+      below_limit <- below_limit + 1
     }
   }
   lplex[[lplex_data_columns[[i]]]] <- x
 }
-# go through each data_column, save it to a vector,
-# for each value in the vector, check if it is above and set it
-# if it isn't, save the vector back to lplex
 
 ## SEPARATE AND PRUNE THE DATAFRAME ---
 
@@ -153,6 +152,7 @@ lplex_no_control <- bind_rows(lplex_list_no_control)
 lplex_repeats <- bind_rows(lplex_list_repeats)
 
 # update the user on the filtering process
+print(paste("Values below limit of detection: ", below_limit))
 print(paste("Rows with NA in necessary columns: ", na_rows))
 print(paste("Sets with no control: ", no_control))
 print(paste("Total removed (sets or rows): ", no_control + na_rows))
