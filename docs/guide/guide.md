@@ -20,3 +20,7 @@ save_plots <- TRUE
 #### Plot Naming
 
 Plot output files are named according to the `timepoint_index`, `_`, then whatever other information defines the graph, such as the analyte column number, or treatment index
+
+#### Output Problems
+
+* Greek letters won't show correctly when I open an output .csv in Excel -- That's a problem with Excel, and to get around that, you can view the dataframe in R, upload the .csv to Box, and view it from there, or by finding any other means of avoiding Excel.
