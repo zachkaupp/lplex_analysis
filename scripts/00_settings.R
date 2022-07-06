@@ -9,7 +9,7 @@ col_timepoint <- "TIMEPOINT"
 
 # COLUMN INDEXES (required) ---
 
-lplex_data_columns <- c(6:18) # cytokine measurements e.g. c(46, 47, 49, 54)
+lplex_data_columns <- c(5:9) # cytokine measurements e.g. c(46, 47, 49, 54)
 lplex_metadata_columns <- c() # demographic data for clustering
 
 # VALUES (required) ---
