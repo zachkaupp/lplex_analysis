@@ -26,5 +26,6 @@ export_format <- "png" # Mac Preview allows multiple PNGs to be opened at
 # a time, unlike with PDF
 possible_na_values <- c("NA", "N/A", "#N/A", "#NAME?")
 outlier_crit <- 4.5 # criteria for outliers - formula is (outlier_crit * iqr) +/- median
+do_normalize <- TRUE # determines whether or not normalization is performed
 
 cat("Settings saved")

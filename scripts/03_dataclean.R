@@ -87,8 +87,9 @@ if (length(lplex_data_columns) == 0) {
 ## FIND A LIST OF THE TREATMENTS ---
 
 lplex_treatments <- levels(factor(lplex[[col_treatment]])) # get all the treatments
-lplex_treatments <- lplex_treatments[!lplex_treatments %in% control] # take out the control treatment
-
+if (do_normalize) {
+  lplex_treatments <- lplex_treatments[!lplex_treatments %in% control] # take out the control treatment
+}
 
 # SEPARATE AND PRUNE THE DATAFRAME ---
 
@@ -148,7 +149,12 @@ print(paste("Sets remaining: ",length(lplex_list_filtered)))
 
 x <- list()
 for (i in 1:length(lplex_list_filtered)) {
-  x[[i]] <- normalize(lplex_list_filtered[[i]], control)
+  if (do_normalize) {
+    x[[i]] <- normalize(lplex_list_filtered[[i]], control)
+  } else {
+    x[[i]] <- lplex_list_filtered[[i]]
+  }
+  
 }
 lplex_normal <- bind_rows(x)
 

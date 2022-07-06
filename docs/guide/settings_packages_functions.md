@@ -76,6 +76,9 @@ possible_na_values <- c() # these contain any recognized
 outlier_crit <- 4.5 # this adjusts the formula for
 # calculating outliers as it is determined in this program.
 # the formula is (outlier_crit * iqr) +/- median
+do_normalize <- TRUE # toggle normalization of the data,
+# if this is off, the labels on the graphs for log2fc will
+# be innacurate, and the data will not normalize
 ```
 
 ### Packages
