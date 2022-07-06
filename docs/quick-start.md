@@ -20,7 +20,7 @@ With the data:
 1. Open `lplex_analysis.Rproj` from this repository in RStudio
 2. Install the required packages if you don't have them using the following commands in the R console of RStudio:
 
-```
+```r
 # These may take a while to download
 
 # Run this first
