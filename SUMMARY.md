@@ -12,3 +12,4 @@
   * [Spider plots](docs/guide/spider.md)
   * [PCA Plots](docs/guide/pca.md)
   * [Heatmaps](docs/guide/heatmap.md)
+* [Repository Management](docs/repo.md)
