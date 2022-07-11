@@ -18,21 +18,7 @@ With the data:
 ## Set up RStudio
 
 1. Open `lplex_analysis.Rproj` from this repository in RStudio
-2. Install the required packages if you don't have them using the following commands in the R console of RStudio:
-
-```r
-# These may take a while to download
-
-# Run this first
-install.packages(c("tidyverse", "tibble", "scales", "ggfortify", "devtools", "cluster", "crayon", "glue"))
-
-# Run this second
-library(devtools)
-
-# Run this third
-devtools::install_github("ricardo-bion/ggradar", dependencies = TRUE)
-devtools::install_github("jokergoo/ComplexHeatmap")
-```
+2. Required packages (dependencies) are now installed automatically
 
 ## Set the Settings
 
